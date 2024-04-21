@@ -13,6 +13,7 @@ const userSchema = new Schema({
   idNumber: {
     type: Number,
     required: [true, 'Nro. de documento es requerido'],
+    unique: [true, 'Nro. de documento ya esta en uso'],
     min: [0, 'Número de documento mínimo es 0, se suministró {VALUE}'],
     max: [9999999999, 'Número de documento máximo es 9999999999, se suministró {VALUE}'],
   },
@@ -59,7 +60,7 @@ const userSchema = new Schema({
   email: {
     type: String,
     required: [true, 'Correo electrónico es requerido'],
-    unique: [true, 'Este correo electrónico ya esta en uso'],
+    //unique: [true, 'Este correo electrónico ya esta en uso'],
     match: [/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, '{VALUE} no es un correo electrónico válido']
   },
   phone: {
@@ -71,6 +72,10 @@ const userSchema = new Schema({
     type: String, 
     required: [true, 'Foto es requerida'],
     max: [2097152, 'El tamaño del archivo no puede superar los 2 MB'], // 2MB = 2097152B
+  },
+  deleted: {
+    type: Boolean,
+    default: false,
   },
 });
 

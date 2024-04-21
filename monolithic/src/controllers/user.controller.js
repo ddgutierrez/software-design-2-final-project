@@ -1,10 +1,35 @@
 const User = require('../models/user.model');
+const Log = require('../models/log.model');
 
 async function createUser(req, res) {
-  const { name, email, password, phone, type } = req.body;
+  const { 
+    idType, 
+    idNumber, 
+    firstName, 
+    middleName, 
+    lastName, 
+    birthDate, 
+    gender, 
+    email, 
+    phone, 
+    photo,
+  } = req.body;
   try {
-    const newUser = new User({ name, email, password, phone, type });
+    const newUser = new User({ 
+      idType, 
+      idNumber, 
+      firstName, 
+      middleName, 
+      lastName, 
+      birthDate, 
+      gender, 
+      email, 
+      phone, 
+      photo,
+    });
     await newUser.save();
+    const newLog = new Log('crear usuario', idNumber);
+    await newLog.save();
     res.status(201).json(newUser);
     console.log('User created');
   } catch (e) {
@@ -14,15 +39,17 @@ async function createUser(req, res) {
 }
 
 async function getUser(req, res) {
-  const { email, password } = req.body;
+  const { idNumber } = req.body;
   try {
-    const user = await User.find({ email, password, deletedAt: null });
-    if (user.length === 0) {
+    const user = await User.find({ idNumber, deleted: false });
+    if (user === null || user.length === 0) {
       res.status(404).json({ error: 'User not found' });
-      console.log('User not found (email,password)');
+      console.log('User not found');
     } else {
       res.status(200).json(user);
       console.log('User found');
+      const newLog = new Log('leer usuario', idNumber);
+      await newLog.save();
     }
   } catch (e) {
     res.status(500).json({ error: e.message });
@@ -30,32 +57,29 @@ async function getUser(req, res) {
   }
 }
 
-async function getUserById(req, res) {
-  const { id } = req.params;
-  try {
-    const user = await User.findById(id);
-    if (user.length === 0 || user.deletedAt !== null) {
-      res.status(404).json({ error: 'User not found' });
-      console.log('User not found (id)');
-    } else {
-      res.status(200).json(user);
-      console.log('User found');
-    }
-  } catch (e) {
-    res.status(500).json({ error: e.message });
-    console.log('Error while running getUserById(req, res)');
-  }
-}
-
 async function updateUser(req, res) {
-  const { id } = req.params;
-  const { name, email, password, phone } = req.body;
+  const { idNumber } = req.params;
+  const { 
+    firstName, 
+    middleName, 
+    lastName, 
+    birthDate, 
+    gender, 
+    email, 
+    phone, 
+    photo,
+  } = req.body;
   try {
     const user = await User.findOneAndUpdate(
-      { _id: id, deletedAt: null },
-      { name, email, password, phone, updatedAt: Date.now() },
-      {
-        new: true,
+      { _id: id, deleted: false },
+      { firstName, 
+        middleName, 
+        lastName, 
+        birthDate, 
+        gender, 
+        email, 
+        phone, 
+        photo,
       }
     );
     if (user === null || user.length === 0) {
@@ -64,6 +88,8 @@ async function updateUser(req, res) {
     } else {
       res.status(200).json(user);
       console.log('User updated succesfully');
+      const newLog = new Log('actualizar usuario', user.idNumber);
+      await newLog.save();
     }
   } catch (e) {
     res.status(500).json({ error: e.message });
@@ -73,16 +99,16 @@ async function updateUser(req, res) {
 
 async function deleteUser(req, res) {
   const { id } = req.params;
-  const update = { deletedAt: Date.now(), updatedAt: Date.now() };
+  const update = { deleted: true };
   try {
-    const user = await User.findOneAndUpdate({ _id: id, deletedAt: null }, update, {
-      new: true,
-    });
+    const user = await User.findOneAndUpdate({ _id: id, deleted: false }, update);
     if (user === null || user.length === 0) {
       res.status(404).json({ error: 'User not found' });
     } else {
       res.status(200).json(user);
       console.log('user deleted');
+      const newLog = new Log('eliminar usuario', user.idNumber);
+      await newLog.save();
     }
   } catch (e) {
     res.status(500).json({ error: e.message });
@@ -93,7 +119,6 @@ async function deleteUser(req, res) {
 module.exports = {
   createUser,
   getUser,
-  getUserById,
   updateUser,
   deleteUser,
 };
