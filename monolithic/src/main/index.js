@@ -2,6 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const expressListEndpoints = require('express-list-endpoints');
 
 // Environment variables
 const PORT = process.env.PORT || 3000;
@@ -19,8 +20,8 @@ app.use(morgan('dev'));
 app.use(express.json());
 
 // Routes
-app.use('/api/users', require('../routes/user.routes'));
-app.use('/api/logs', require('../routes/log.routes'));
+app.use('/api/user', require('../routes/user.routes'));
+app.use('/api/log', require('../routes/log.routes'));
 
 // Endpoint for 404 error
 app.use((req, res) => {
@@ -44,10 +45,6 @@ mongoose
       ':' +
       process.env.MONGO_PASS +
       '@dwb.dwiqlyu.mongodb.net/?retryWrites=true&w=majority',
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }
   )
   .then(() => {
     console.log('Connected to database.');
@@ -56,3 +53,6 @@ mongoose
     console.log('There was an error when connecting to database!');
     console.log(err);
   });
+
+const endpoints = expressListEndpoints(app);
+console.log(endpoints)

@@ -28,7 +28,8 @@ async function createUser(req, res) {
       photo,
     });
     await newUser.save();
-    const newLog = new Log('crear usuario', idNumber);
+    const action = 'crear usuario';
+    const newLog = new Log({action, idNumber});
     await newLog.save();
     res.status(201).json(newUser);
     console.log('User created');
@@ -46,10 +47,12 @@ async function getUser(req, res) {
       res.status(404).json({ error: 'User not found' });
       console.log('User not found');
     } else {
-      res.status(200).json(user);
+      
       console.log('User found');
-      const newLog = new Log('leer usuario', idNumber);
+      const action = 'leer usuario';
+      const newLog = new Log({action, idNumber});
       await newLog.save();
+      res.status(200).json(user);
     }
   } catch (e) {
     res.status(500).json({ error: e.message });
@@ -58,8 +61,8 @@ async function getUser(req, res) {
 }
 
 async function updateUser(req, res) {
-  const { idNumber } = req.params;
   const { 
+    idNumber,
     firstName, 
     middleName, 
     lastName, 
@@ -69,9 +72,10 @@ async function updateUser(req, res) {
     phone, 
     photo,
   } = req.body;
+  console.log(idNumber);
   try {
     const user = await User.findOneAndUpdate(
-      { _id: id, deleted: false },
+      { idNumber: idNumber, deleted: false },
       { firstName, 
         middleName, 
         lastName, 
@@ -80,16 +84,20 @@ async function updateUser(req, res) {
         email, 
         phone, 
         photo,
-      }
+      },
+      {new: true},
     );
     if (user === null || user.length === 0) {
       res.status(404).json({ error: 'User not found' });
       console.log('User not found (update)');
     } else {
-      res.status(200).json(user);
+      
       console.log('User updated succesfully');
-      const newLog = new Log('actualizar usuario', user.idNumber);
+      const action = 'actualizar usuario';
+      const newLog = new Log({action, idNumber});
       await newLog.save();
+      console.log(user)
+      res.status(200).json(user);
     }
   } catch (e) {
     res.status(500).json({ error: e.message });
@@ -98,17 +106,19 @@ async function updateUser(req, res) {
 }
 
 async function deleteUser(req, res) {
-  const { id } = req.params;
+  const { idNumber } = req.body;
   const update = { deleted: true };
   try {
-    const user = await User.findOneAndUpdate({ _id: id, deleted: false }, update);
+    const user = await User.findOneAndUpdate({ idNumber: idNumber, deleted: false }, update, {new: true},);
     if (user === null || user.length === 0) {
       res.status(404).json({ error: 'User not found' });
     } else {
-      res.status(200).json(user);
+      
       console.log('user deleted');
-      const newLog = new Log('eliminar usuario', user.idNumber);
+      const action = 'eliminar usuario';
+      const newLog = new Log({action, idNumber});
       await newLog.save();
+      res.status(200).json(user);
     }
   } catch (e) {
     res.status(500).json({ error: e.message });

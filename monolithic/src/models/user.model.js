@@ -22,7 +22,7 @@ const userSchema = new Schema({
     required: [true, 'Primer Nombre es requerido'],
     maxLength: [30, 'No se permiten nombres con más de 30 caracteres'],
     validate:{ 
-      validator: isNaN(str),
+      validator: (str) => isNaN(str),
       message: 'No se permiten números como nombres',
     },
   },
@@ -31,7 +31,7 @@ const userSchema = new Schema({
     required: [true, 'Segundo Nombre es requerido'],
     maxLength: [30, 'No se permiten nombres con más de 30 caracteres'],
     validate:{ 
-      validator: isNaN(str),
+      validator: (str) => isNaN(str),
       message: 'No se permiten números como nombres',
     },
   },
@@ -40,14 +40,13 @@ const userSchema = new Schema({
     required: [true, 'Apellido es requerido'],
     maxLength: [60, 'No se permiten apellidos con más de 60 caracteres'],
     validate:{ 
-      validator: isNaN(str),
+      validator: (str) => isNaN(str),
       message: 'No se permiten números como apellidos',
     },
   },
   birthDate: {
     type: Date,
     required: [true, 'Fecha de Nacimiento es requerida'],
-    //get: (date)=> date.toLocaleDateString("sp-MX") // getter
   },
   gender: {
     type: String,
@@ -70,7 +69,7 @@ const userSchema = new Schema({
   },
   photo: {
     type: String, 
-    required: [true, 'Foto es requerida'],
+    required: [false, 'Foto es requerida'],
     max: [2097152, 'El tamaño del archivo no puede superar los 2 MB'], // 2MB = 2097152B
   },
   deleted: {
