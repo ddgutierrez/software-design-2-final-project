@@ -20,11 +20,13 @@ document.addEventListener("DOMContentLoaded", function () {
     formData.set("idNumber", parseInt(formData.get("numeroDocumento"), 10));
     formData.set("phone", parseInt(formData.get("celular"), 10));
     console.log(formData.get("idNumber"));
+    idNumber = parseInt(formData.get("numeroDocumento"), 10);
+    phone = parseInt(formData.get("celular"), 10);
 
     // Assuming 'PATCH' is correct and your server is setup to handle FormData with file upload
     fetch(form.action, {
       method: "PATCH",
-      body: formData, // Send formData directly without JSON.stringify
+      body: {idNumber, phone},//formData, // Send formData directly without JSON.stringify
     })
       .then((response) => {
         if (!response.ok) {
