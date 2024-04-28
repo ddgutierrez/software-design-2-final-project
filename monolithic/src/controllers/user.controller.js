@@ -90,6 +90,7 @@ async function updateUser(req, res) {
     if (user === null || user.length === 0) {
       res.status(404).json({ error: 'User not found' });
       console.log('User not found (update)');
+      console.log(idNumber);
     } else {
       
       console.log('User updated succesfully');
