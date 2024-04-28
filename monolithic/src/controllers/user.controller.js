@@ -60,14 +60,14 @@ async function getUser(req, res) {
 }
 
 async function updateUser(req, res) {
-  const { idNumber, firstName, middleName, lastName, birthDate, gender, email, phone, photo } =
+  const {  idType, idNumber, firstName, middleName, lastName, birthDate, gender, email, phone, photo, } =
     req.body;
   console.log(idNumber);
   console.log(req.body);
   try {
     const user = await User.findOneAndUpdate(
       { idNumber: idNumber, deleted: false },
-      { firstName, middleName, lastName, birthDate, gender, email, phone, photo },
+      { idType, firstName, middleName, lastName, birthDate, gender, email, phone, photo },
       { new: true }
     );
     if (user === null || user.length === 0) {

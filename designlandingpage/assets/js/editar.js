@@ -17,31 +17,40 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Convert non-file fields to the correct format as needed
-    formData.set("idNumber", parseInt(formData.get("numeroDocumento"), 10));
-    formData.set("phone", parseInt(formData.get("celular"), 10));
-    console.log(formData.get("idNumber"));
-    idNumber = parseInt(formData.get("numeroDocumento"), 10);
-    phone = parseInt(formData.get("celular"), 10);
+    // formData.set("idNumber", parseInt(formData.get("numeroDocumento"), 10));
+    // formData.set("phone", parseInt(formData.get("celular"), 10));
+    // console.log(formData.get("idNumber"));
+    // idNumber = parseInt(formData.get("numeroDocumento"), 10);
+    // phone = parseInt(formData.get("celular"), 10);
 
     const bodyContent = JSON.stringify({
       idNumber: document.getElementById("numeroDocumento").value,
-      firstName: "SISEÑOR SHAWARMAAA",
+      firstName: document.getElementById("primerNombre").value,
+      middleName: document.getElementById("segundoNombre").value,
+      lastName: document.getElementById("apellidos").value,
+      birthDate: document.getElementById("fechaNacimiento").value,
+      gender: document.getElementById("genero").value,
+      email: document.getElementById("email").value,
+      phone: document.getElementById("celular").value,
+      photo: document.getElementById("foto").value,
+      idType: document.getElementById("tipoDocumento").value,
+      //   { idNumber, firstName, middleName, lastName, birthDate, gender, email, phone, photo }
     });
 
     console.log(document.getElementById("numeroDocumento").value);
     console.log(bodyContent);
     // Assuming 'PATCH' is correct and your server is setup to handle FormData with file upload
-    fetch('http://localhost:3000/api/user/update/', {
-        method: 'PATCH',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: bodyContent
+    fetch("http://localhost:3000/api/user/update/", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: bodyContent,
     })
-    //fetch(form.action, {
-    //  method: "PATCH",
-    //  body: bodyContent,//formData, // Send formData directly without JSON.stringify
-    //})
+      //fetch(form.action, {
+      //  method: "PATCH",
+      //  body: bodyContent,//formData, // Send formData directly without JSON.stringify
+      //})
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
