@@ -28,10 +28,17 @@ document.addEventListener("DOMContentLoaded", function () {
       firstName: "SISEÑOR SHAWARMAAA",
     });
     // Assuming 'PATCH' is correct and your server is setup to handle FormData with file upload
-    fetch(form.action, {
-      method: "PATCH",
-      body: bodyContent,//formData, // Send formData directly without JSON.stringify
+    fetch('http://localhost:3000/api/user/update/', {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: bodyContent
     })
+    //fetch(form.action, {
+    //  method: "PATCH",
+    //  body: bodyContent,//formData, // Send formData directly without JSON.stringify
+    //})
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
