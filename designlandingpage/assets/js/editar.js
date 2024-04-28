@@ -22,15 +22,18 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log(formData.get("idNumber"));
     idNumber = parseInt(formData.get("numeroDocumento"), 10);
     phone = parseInt(formData.get("celular"), 10);
-    
+
     const bodyContent = JSON.stringify({
-      idNumber: document.getElementById('numeroDocumento').value,
+      idNumber: document.getElementById("numeroDocumento").value,
       firstName: "SISEÑOR SHAWARMAAA",
     });
+
+    console.log(document.getElementById("numeroDocumento").value);
+    console.log(bodyContent);
     // Assuming 'PATCH' is correct and your server is setup to handle FormData with file upload
     fetch(form.action, {
       method: "PATCH",
-      body: bodyContent,//formData, // Send formData directly without JSON.stringify
+      body: bodyContent, //formData, // Send formData directly without JSON.stringify
     })
       .then((response) => {
         if (!response.ok) {
@@ -50,6 +53,5 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("Error during fetch:", error);
         alert("Error updating user: " + error.message);
       });
-
   });
 });
