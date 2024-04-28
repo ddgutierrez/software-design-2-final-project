@@ -22,10 +22,10 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log(formData.get("idNumber"));
     idNumber = parseInt(formData.get("numeroDocumento"), 10);
     phone = parseInt(formData.get("celular"), 10);
-
+    
     const bodyContent = JSON.stringify({
-      idNumber: formData.get("idNumber"),
-      firstName: formData.get("primerNombre"),
+      idNumber: document.getElementById('numeroDocumento').value,
+      firstName: "SISEÑOR SHAWARMAAA",
     });
     // Assuming 'PATCH' is correct and your server is setup to handle FormData with file upload
     fetch(form.action, {
