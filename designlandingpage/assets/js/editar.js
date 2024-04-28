@@ -46,5 +46,6 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("Error during fetch:", error);
         alert("Error updating user: " + error.message);
       });
+
   });
 });
