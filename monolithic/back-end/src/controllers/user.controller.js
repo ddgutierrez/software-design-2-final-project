@@ -35,6 +35,7 @@ async function createUser(req, res) {
     console.log('User created');
   } catch (e) {
     res.status(500).json({ error: e.message });
+    console.log(e.message);
     console.log('Error while running createUser(req, res)');
   }
 }
@@ -84,6 +85,7 @@ async function updateUser(req, res) {
     }
   } catch (e) {
     res.status(500).json({ error: e.message });
+    console.log(e.message);
     console.log('Error while running updateUser(req, res)');
   }
 }
