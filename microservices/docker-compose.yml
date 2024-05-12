@@ -1,0 +1,94 @@
+name: personal-data-managment-app
+services:
+  mongo-db:
+    image: mongo
+    container_name: mongo-db
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=Admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+  create-ms:
+    build:
+      context: ./backend/create-ms
+      dockerfile: dockerfile
+    container_name: create-ms
+    ports:
+      - "8001:8001"
+    depends_on:
+      - mongo-db
+    environment:
+      - PORT=8001 
+      - MONGODB_URI=mongodb://Admin:password@mongo-db:27017
+  update-ms:
+    build:
+      context: ./backend/update-ms
+      dockerfile: dockerfile
+    container_name: update-ms
+    ports:
+      - "8002:8002"
+    depends_on:
+      - mongo-db
+    environment:
+      - PORT=8002 
+      - MONGODB_URI=mongodb://Admin:password@mongo-db:27017
+  read-ms:
+    build:
+      context: ./backend/read-ms
+      dockerfile: dockerfile
+    container_name: read-ms
+    ports:
+      - "8003:8003"
+    depends_on:
+      - mongo-db
+    environment:
+      - PORT=8003 
+      - MONGODB_URI=mongodb://Admin:password@mongo-db:27017
+  delete-ms:
+    build:
+      context: ./backend/delete-ms
+      dockerfile: dockerfile
+    container_name: delete-ms
+    ports:
+      - "8004:8004"
+    depends_on:
+      - mongo-db
+    environment:
+      - PORT=8004 
+      - MONGODB_URI=mongodb://Admin:password@mongo-db:27017
+  log-ms:
+    build:
+      context: ./backend/log-ms
+      dockerfile: dockerfile
+    container_name: log-ms
+    ports:
+      - "8005:8005"
+    depends_on:
+      - mongo-db
+    environment:
+      - PORT=8005 
+      - MONGODB_URI=mongodb://Admin:password@mongo-db:27017
+  api-gateway:
+    build:
+      context: ./backend/api-gateway
+      dockerfile: dockerfile
+    container_name: api-gateway
+    ports:
+      - "8000:8000"
+    depends_on:
+      - create-ms
+      - update-ms
+      - read-ms
+      - delete-ms
+      - log-ms
+    environment:
+      - PORT=8000
+      - CREATE_MS_URL=http://create-ms:8001
+      - UPDATE_MS_URL=http://update-ms:8002
+      - READ_MS_URL=http://read-ms:8003
+      - DELETE_MS_URL=http://delete-ms:8004
+      - LOG_MS_URL=http://log-ms:8005
+
+  
