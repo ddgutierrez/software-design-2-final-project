@@ -18,7 +18,7 @@ app.set('json spaces', 2);
 // Middlewares
 app.use(cors());
 app.use(morgan('dev'));
-app.use(express.json());
+app.use(express.json({ limit: '50mb' })); // Increase the limit for base64 image data
 
 // Functions
 async function createUser(req, res) {
@@ -60,8 +60,6 @@ async function createUser(req, res) {
   }
 }
 
-// Routes
-//"http://localhost:8000/create/";
 app.post('/', createUser);
 app.use((req, res) => {
   res.status(404).json({ message: 'Not found.' });

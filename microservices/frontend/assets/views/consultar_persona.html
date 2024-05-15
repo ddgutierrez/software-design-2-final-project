@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultar Persona</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">
+            <a href="../../index.html">
+                <img src="../img/logo.png" alt="DataHub Logo">
+            </a>
+        </div>
+        <ul>
+            <li><a href="crear_persona.html">Crear Personas</a></li>
+            <li><a href="editar_persona.html">Modificar Datos Personales</a></li>
+            <li><a href="consultar_persona.html">Consultar Datos Personales</a></li>
+            <li><a href="borrar_persona.html">Borrar Personas</a></li>
+            <li><a href="log_persona.html">Consultar Log</a></li>
+        </ul>
+    </div>
+    <div class="container">
+        <h1>Consultar Persona</h1>
+        <form id="buscarPersonaForm">
+            <div>
+                <label for="searchNumeroDocumento">Número de Documento:</label>
+                <input type="number" id="searchNumeroDocumento" name="searchNumeroDocumento" pattern="\d{1,10}" required>
+            </div>
+            <button type="button" onclick="fetchUserData()">Buscar</button>
+        </form>
+        <div id="userDataDisplay">
+            <h2>Información del Usuario</h2>
+            <p><strong>Primer Nombre:</strong> <span id="primerNombre" class="userDataPrimerNombre"></span></p>
+            <p><strong>Segundo Nombre:</strong> <span id="segundoNombre" class="userDataSegundoNombre"></span></p>
+            <p><strong>Apellidos:</strong> <span id="apellidos" class="userDataApellidos"></span></p>
+            <p><strong>Fecha de Nacimiento:</strong> <span id="fechaNacimiento" class="userDataFechaNacimiento"></span></p>
+            <p><strong>Género:</strong> <span id="genero" class="userDataGenero"></span></p>
+            <p><strong>Correo Electrónico:</strong> <span id="email" class="userDataEmail"></span></p>
+            <p><strong>Celular:</strong> <span id="celular" class="userDataCelular"></span></p>
+            <p><strong>Número de Documento:</strong> <span id="numeroDocumento" class="userDataNumeroDocumento"></span></p>
+            <p><strong>Tipo de Documento:</strong> <span id="tipoDocumento" class="userDataTipoDocumento"></span></p>
+        </div>
+    </div>
+    <script src="../js/consultar.js"></script>
+</body>
+</html>
