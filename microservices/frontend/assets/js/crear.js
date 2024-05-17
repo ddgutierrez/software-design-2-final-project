@@ -97,6 +97,8 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((response) => {
         if (response.ok) {
           return response.json();
+        } else if (response.status === 500) {
+          throw new Error("Número de documento ya existe");
         } else {
           throw new Error("Failed to create persona");
         }
@@ -107,7 +109,11 @@ document.addEventListener("DOMContentLoaded", function () {
       })
       .catch((error) => {
         console.error("Error:", error);
-        alert("Error: " + error.message);
+        if (error.message === "Número de documento ya existe") {
+          alert("Error: El número de documento ya existe.");
+        } else {
+          alert("Error: " + error.message);
+        }
       });
   }
   

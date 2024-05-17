@@ -8,12 +8,14 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Expresiones regulares para validaciones
+  const regexNumDocumento = /^\d{1,10}$/;
   const regexNombres = /^[A-Za-z\s]{1,30}$/;
   const regexApellidos = /^[A-Za-z\s]{1,60}$/;
   const regexEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
   const regexCelular = /^\d{1,10}$/;
 
   // Obtener elementos de entrada
+  const numDocumentoInput = document.getElementById("searchNumeroDocumento");
   const primerNombreInput = document.getElementById("primerNombre");
   const segundoNombreInput = document.getElementById("segundoNombre");
   const apellidosInput = document.getElementById("apellidos");
@@ -21,6 +23,10 @@ document.addEventListener("DOMContentLoaded", function () {
   const celularInput = document.getElementById("celular");
 
   // Agregar eventos de escucha para validaciones en tiempo real
+  numDocumentoInput.addEventListener("keypress", function (event) {
+    validarInput(this, regexNumDocumento, event);
+  });
+
   primerNombreInput.addEventListener("keypress", function (event) {
     validarInput(this, regexNombres, event);
   });

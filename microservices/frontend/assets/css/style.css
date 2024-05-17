@@ -185,3 +185,9 @@ form button {
 form div button:hover {
     background-color: #4cae4c;
 }
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
