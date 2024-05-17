@@ -96,5 +96,6 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error('Error:', error);
         alert('Error: ' + error.message);
       });
+    
   }
 });
