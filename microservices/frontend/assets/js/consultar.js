@@ -64,7 +64,11 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("Error:", error);
         alert("Error: " + error.message);
       });
+
+      
   };
+
+  
 
   function populateFormData(data) {
     document.getElementById("tipoDocumento").value = data.idType;

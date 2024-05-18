@@ -146,6 +146,10 @@ body {
     
 }
 
+#userDataDisplay{
+    margin-bottom: 50px;
+}
+
 form {
     width: 60%;
     display: flex;
@@ -187,7 +191,7 @@ form button , div button {
     margin: 0 0px 30px;
 }
 #borrarPersonaForm button{
-    margin-top: 20px;
+    margin-top: -20px;
     background-color: rgb(205, 28, 28);
 }
 
@@ -203,7 +207,7 @@ form div button:hover {
     
 }
 
-.botones_modificar #limpiar{
+#limpiar{
     margin-left: 20px;
     background-color: #007bff;
     font-size: 15px;
