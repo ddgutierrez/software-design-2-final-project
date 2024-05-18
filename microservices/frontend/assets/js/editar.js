@@ -1,10 +1,16 @@
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("actualizarPersonaForm");
+  const limpiarButton = document.getElementById("limpiar");
 
   form.addEventListener("submit", function (event) {
     event.preventDefault();
     const idNumber = document.getElementById("searchNumeroDocumento").value;
     updateUserData(idNumber);
+  });
+
+  limpiarButton.addEventListener("click", function (event) {
+    event.preventDefault();
+    limpiarFormulario();
   });
 
   // Expresiones regulares para validaciones
@@ -61,6 +67,16 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
   
+  function limpiarFormulario() {
+    document.getElementById("searchNumeroDocumento").value = "";
+    document.getElementById("primerNombre").value = "";
+    document.getElementById("segundoNombre").value = "";
+    document.getElementById("apellidos").value = "";
+    document.getElementById("fechaNacimiento").value = "";
+    document.getElementById("genero").value = "";
+    document.getElementById("email").value = "";
+    document.getElementById("celular").value = "";
+  }
 
   function updateUserData(idNumber) {
     const formData = {

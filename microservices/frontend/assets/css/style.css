@@ -190,8 +190,23 @@ form button , div button {
     margin-top: 20px;
     background-color: rgb(205, 28, 28);
 }
+
 form div button:hover {
     background-color: #4cae4c;
+}
+
+.botones_modificar{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content:left;
+    
+}
+
+.botones_modificar #limpiar{
+    margin-left: 20px;
+    background-color: #007bff;
+    font-size: 15px;
 }
 
 input[type=number]::-webkit-inner-spin-button, 

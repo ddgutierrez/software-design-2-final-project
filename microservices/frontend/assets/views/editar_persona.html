@@ -22,7 +22,7 @@
       </ul>
     </div>
     <div class="container">
-      <h1>Modificar Persona</h1>
+      <h1>Modificar Datos Personales</h1>
       <form id="buscarPersonaForm">
         <div>
           <label for="searchNumeroDocumento">Número de Documento:</label>
@@ -114,7 +114,10 @@
           <label for="foto">Foto:</label>
           <input type="file" id="foto" name="foto" accept="image/*" />
         </div>
-        <button type="submit">Actualizar</button>
+        <div class="botones_modificar">
+          <button type="submit">Actualizar</button>
+          <button type="submit" id="limpiar">Limpiar datos</button>
+        </div>
       </form>
     </div>
     <script src="../js/consultar.js"></script>
