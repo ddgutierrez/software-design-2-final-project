@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   window.fetchUserData = function () {
     const idNumber = document.getElementById("searchNumeroDocumento").value;
-    fetch("http://localhost:8000/read/", {
+    fetch("http://api-gateway:8000/read/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -133,7 +133,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   window.fetchUserDataEditar = function () {
     const idNumber = document.getElementById("searchNumeroDocumento1").value;
-    fetch("http://localhost:8000/read/", {
+    fetch("http://api-gateway:8000/read/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -255,7 +255,7 @@ document.addEventListener("DOMContentLoaded", function () {
       phone: parseInt(document.getElementById("celular1").value, 10),
     };
 
-    fetch('http://localhost:8000/update/', {
+    fetch('http://api-gateway:8000/update/', {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

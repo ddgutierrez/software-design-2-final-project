@@ -155,7 +155,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function submitForm(formData) {
-    fetch("http://localhost:8000/create", {
+    fetch("http://api-gateway:8000/create", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

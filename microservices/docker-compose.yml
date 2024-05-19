@@ -90,5 +90,20 @@ services:
       - READ_MS_URL=http://read-ms:8003
       - DELETE_MS_URL=http://delete-ms:8004
       - LOG_MS_URL=http://log-ms:8005
+  front-end:
+    build:
+      context: ./frontend
+      dockerfile: dockerfile
+    container_name: front-end
+    ports:
+      - "8080:8080"
+    depends_on:
+      - api-gateway
+    environment:
+      - PORT=8080
+      - API_URL=http://api-gateway:8000
+    volumes:
+      - ./frontend/assets:/usr/share/nginx/html
+      - ./frontend/nginx.conf:/etc/nginx/nginx.conf
 
   
