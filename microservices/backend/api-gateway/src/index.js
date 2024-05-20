@@ -1,3 +1,4 @@
+const bodyParser = require('body-parser');
 const express = require('express');
 const cors = require('cors');
 const proxy = require('express-http-proxy');
@@ -7,12 +8,17 @@ dotenv.config();
 const app = express();
 
 app.use(cors());
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+app.use(express.urlencoded({extended: true})); 
 app.use(express.json());
+
 app.use('/create', proxy(process.env.CREATE_MS_URL));
 app.use('/update', proxy(process.env.UPDATE_MS_URL));
 app.use('/read', proxy(process.env.READ_MS_URL));
 app.use('/delete', proxy(process.env.DELETE_MS_URL));
 app.use('/log', proxy(process.env.LOG_MS_URL));
+
 
 app.listen(process.env.PORT, () => {
   console.log(`Listening on port ${process.env.PORT}`);

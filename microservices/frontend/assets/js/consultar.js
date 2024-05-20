@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   window.fetchUserData = function () {
     const idNumber = document.getElementById("searchNumeroDocumento").value;
-    fetch("http://api-gateway:8000/read/", {
+    fetch("http://localhost:8000/read/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("genero").value = data.gender;
     document.getElementById("email").value = data.email;
     document.getElementById("celular").value = data.phone;
-    document.getElementById("foto").value = data.photo;
+    document.getElementById("foto").src = data.photo;
     // Note: Photo is not populated here since it's a file input
   }
 

@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function deleteUser(idNumber) {
-    fetch("http://api-gateway:8000/delete/", {
+    fetch("http://localhost:8000/delete/", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

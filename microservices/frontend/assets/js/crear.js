@@ -155,6 +155,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function sendData() {
     const file = document.getElementById("foto").files[0];
     toBase64(file).then(base64String => {
+      console.log(base64String);
       const formData = {
         idType: document.getElementById("tipoDocumento").value,
         idNumber: parseInt(document.getElementById("numeroDocumento").value, 10),
@@ -176,7 +177,7 @@ document.addEventListener("DOMContentLoaded", function () {
   
 
   function submitForm(formData) {
-    fetch("http://api-gateway:8000/create", {
+    fetch("http://localhost:8000/create", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
