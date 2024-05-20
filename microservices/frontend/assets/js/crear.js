@@ -124,6 +124,19 @@ document.addEventListener("DOMContentLoaded", function () {
     validarInput(this, regexCelular, event);
   });
 
+  function toBase64(file){
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader. onload = () => {
+        resolve(fileReader.result)
+      };
+      fileReader.onerror = (error) => {
+        reject (error);
+      }
+    })
+  }
+
   function validarInput(input, regex, event) {
     const key = event.key;
     const valor = input.value + key;
@@ -137,22 +150,30 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  function sendData() {
-    const formData = {
-      idType: document.getElementById("tipoDocumento").value,
-      idNumber: parseInt(document.getElementById("numeroDocumento").value, 10),
-      firstName: document.getElementById("primerNombre").value,
-      middleName: document.getElementById("segundoNombre").value,
-      lastName: document.getElementById("apellidos").value,
-      birthDate: document.getElementById("fechaNacimiento").value,
-      gender: document.getElementById("genero").value,
-      email: document.getElementById("email").value,
-      phone: parseInt(document.getElementById("celular").value, 10),
-      photo: "sample photo string", // Placeholder for photo handling
-    };
+  
 
-    submitForm(formData);
+  function sendData() {
+    const file = document.getElementById("foto").files[0];
+    toBase64(file).then(base64String => {
+      const formData = {
+        idType: document.getElementById("tipoDocumento").value,
+        idNumber: parseInt(document.getElementById("numeroDocumento").value, 10),
+        firstName: document.getElementById("primerNombre").value,
+        middleName: document.getElementById("segundoNombre").value,
+        lastName: document.getElementById("apellidos").value,
+        birthDate: document.getElementById("fechaNacimiento").value,
+        gender: document.getElementById("genero").value,
+        email: document.getElementById("email").value,
+        phone: parseInt(document.getElementById("celular").value, 10),
+        photo: base64String, // Placeholder for photo handling
+      };
+      submitForm(formData); // This will log the base64 string of the file
+    }).catch(error => {
+      console.error(error);
+    });
+    
   }
+  
 
   function submitForm(formData) {
     fetch("http://api-gateway:8000/create", {

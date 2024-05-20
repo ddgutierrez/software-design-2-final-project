@@ -80,6 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("genero").value = data.gender;
     document.getElementById("email").value = data.email;
     document.getElementById("celular").value = data.phone;
+    document.getElementById("foto").value = data.photo;
     // Note: Photo is not populated here since it's a file input
   }
 
