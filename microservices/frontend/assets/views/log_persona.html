@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Consultar Log</title>
+    <link rel="stylesheet" href="../style.css" />
+  </head>
+  <body>
+    <div class="navbar">
+      <div class="logo">
+        <a href="../../index.html">
+          <img src="../img/logoprueba.png" alt="DataHub Logo" />
+        </a>
+      </div>
+      <ul>
+        <li><a href="crear_persona.html">Crear Personas</a></li>
+        <li><a href="editar_persona.html">Modificar Datos Personales</a></li>
+        <li><a href="consultar_persona.html">Consultar Datos Personales</a></li>
+        <li><a href="borrar_persona.html">Borrar Personas</a></li>
+        <li><a href="log_persona.html">Consultar Log</a></li>
+      </ul>
+    </div>
+    <div class="container">
+      <h1>Consultar Log</h1>
+      <form id="buscarLogForm">
+        <div>
+          <label for="searchNumeroDocumento">Número de Documento:</label>
+          <input
+            type="number"
+            id="searchNumeroDocumento"
+            name="searchNumeroDocumento"
+            pattern="\d{1,10}"
+          />
+        </div>
+        <div>
+          <label for="searchFecha">Fecha (Opcional):</label>
+          <input
+            type="date"
+            id="searchFecha"
+            name="searchFecha"
+          />
+        </div>
+        <button type="button" onclick="fetchLogData()">Buscar</button>
+      </form>
+      <div id="logResults"></div>
+    </div>
+    <script src="../consultar_log.js"></script>
+  </body>
+</html>
