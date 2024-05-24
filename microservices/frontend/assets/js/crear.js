@@ -12,7 +12,15 @@ document.addEventListener("DOMContentLoaded", function () {
       alert("El tamaño de la foto debe ser menor de 2 MB.");
       return;
     } else {
-      sendData();
+      toBase64(file)
+        .then((base64String) => {
+          console.log("Foto en Base64:", base64String); // Verificar la conversión a Base64
+
+          sendData(base64String);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     }
   });
 
@@ -46,18 +54,15 @@ document.addEventListener("DOMContentLoaded", function () {
       sessionStorage.removeItem(input.id);
     });
 
-    // Marcar que los campos fueron limpiados
     sessionStorage.setItem("formCleared", "true");
   }
 
-  // Expresiones regulares para validaciones
   const regexNumDocumento = /^\d{1,10}$/;
   const regexNombres = /^[A-Za-z\s]{1,30}$/;
   const regexApellidos = /^[A-Za-z\s]{1,60}$/;
   const regexEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
   const regexCelular = /^\d{1,10}$/;
 
-  // Obtener elementos de entrada
   const tipoDocumentoInput = document.getElementById("tipoDocumento");
   const numDocumentoInput = document.getElementById("numeroDocumento");
   const primerNombreInput = document.getElementById("primerNombre");
@@ -68,7 +73,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const emailInput = document.getElementById("email");
   const celularInput = document.getElementById("celular");
 
-  // Recuperar valores del sessionStorage si existen y si el formulario no fue limpiado
   const inputs = [
     tipoDocumentoInput,
     numDocumentoInput,
@@ -88,18 +92,15 @@ document.addEventListener("DOMContentLoaded", function () {
         input.value = savedValue;
       }
 
-      // Guardar el valor en el sessionStorage cuando cambie
       input.addEventListener("input", () => {
         sessionStorage.setItem(input.id, input.value);
       });
     });
   } else {
-    // Remover el indicador después de la primera carga post limpieza
     sessionStorage.removeItem("formCleared");
     location.reload();
   }
 
-  // Agregar eventos de escucha para validaciones en tiempo real
   numDocumentoInput.addEventListener("keypress", function (event) {
     validarInput(this, regexNumDocumento, event);
   });
@@ -129,7 +130,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const fileReader = new FileReader();
       fileReader.readAsDataURL(file);
       fileReader.onload = () => {
-        resolve(fileReader.result);
+        resolve(fileReader.result.split(",")[1]); // Obteniendo solo la cadena base64
       };
       fileReader.onerror = (error) => {
         reject(error);
@@ -150,31 +151,22 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  function sendData() {
-    const file = document.getElementById("foto").files[0];
-    toBase64(file)
-      .then((base64String) => {
-        console.log(base64String);
-        const formData = {
-          idType: document.getElementById("tipoDocumento").value,
-          idNumber: parseInt(
-            document.getElementById("numeroDocumento").value,
-            10
-          ),
-          firstName: document.getElementById("primerNombre").value,
-          middleName: document.getElementById("segundoNombre").value,
-          lastName: document.getElementById("apellidos").value,
-          birthDate: document.getElementById("fechaNacimiento").value,
-          gender: document.getElementById("genero").value,
-          email: document.getElementById("email").value,
-          phone: parseInt(document.getElementById("celular").value, 10),
-          photo: base64String, // Placeholder for photo handling
-        };
-        submitForm(formData); // This will log the base64 string of the file
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+  function sendData(base64String) {
+    const formData = {
+      idType: document.getElementById("tipoDocumento").value,
+      idNumber: parseInt(document.getElementById("numeroDocumento").value, 10),
+      firstName: document.getElementById("primerNombre").value,
+      middleName: document.getElementById("segundoNombre").value,
+      lastName: document.getElementById("apellidos").value,
+      birthDate: document.getElementById("fechaNacimiento").value,
+      gender: document.getElementById("genero").value,
+      email: document.getElementById("email").value,
+      phone: parseInt(document.getElementById("celular").value, 10),
+      photo: base64String,
+    };
+
+    console.log("Datos del formulario:", formData);
+    submitForm(formData);
   }
 
   function submitForm(formData) {
@@ -191,7 +183,7 @@ document.addEventListener("DOMContentLoaded", function () {
         } else if (response.status === 500) {
           throw new Error("Número de documento ya existe");
         } else {
-          throw new Error("Failed to create persona");
+          throw new Error("Error al crear la persona");
         }
       })
       .then((data) => {

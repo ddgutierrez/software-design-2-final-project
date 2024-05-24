@@ -58,17 +58,16 @@ document.addEventListener("DOMContentLoaded", function () {
           }
         } else {
           alert("No data found for the provided ID number");
+          alert(
+            "No se encontraron datos para el número de documento proporcionado"
+          );
         }
       })
       .catch((error) => {
         console.error("Error:", error);
         alert("Error: " + error.message);
       });
-
-      
   };
-
-  
 
   function populateFormData(data) {
     document.getElementById("tipoDocumento").value = data.idType;
@@ -95,5 +94,14 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("celular").innerText = data.phone;
     document.getElementById("numeroDocumento").innerText = data.idNumber;
     document.getElementById("tipoDocumento").innerText = data.idType;
+
+    // Mostrar la foto
+    const photoElement = document.getElementById("foto");
+    if (data.photo) {
+      photoElement.src = `data:image/jpeg;base64,${data.photo}`;
+      photoElement.style.display = "block";
+    } else {
+      photoElement.style.display = "none";
+    }
   }
 });

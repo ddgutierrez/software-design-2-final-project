@@ -10,7 +10,7 @@
     <div class="navbar">
       <div class="logo">
         <a href="../../index.html">
-          <img src="../img/logo.png" alt="DataHub Logo" />
+          <img src="../img/logoprueba.png" alt="DataHub Logo" />
         </a>
       </div>
       <ul>
@@ -36,48 +36,56 @@
         </div>
         <button type="button" onclick="fetchUserData()">Buscar</button>
       </form>
-      <div id="userDataDisplay">
-        <h2>Información del Usuario</h2>
-        <p>
-          <strong>Primer Nombre:</strong>
-          <span id="primerNombre" class="userDataPrimerNombre"></span>
-        </p>
-        <p>
-          <strong>Segundo Nombre:</strong>
-          <span id="segundoNombre" class="userDataSegundoNombre"></span>
-        </p>
-        <p>
-          <strong>Apellidos:</strong>
-          <span id="apellidos" class="userDataApellidos"></span>
-        </p>
-        <p>
-          <strong>Fecha de Nacimiento:</strong>
-          <span id="fechaNacimiento" class="userDataFechaNacimiento"></span>
-        </p>
-        <p>
-          <strong>Género:</strong>
-          <span id="genero" class="userDataGenero"></span>
-        </p>
-        <p>
-          <strong>Correo Electrónico:</strong>
-          <span id="email" class="userDataEmail"></span>
-        </p>
-        <p>
-          <strong>Celular:</strong>
-          <span id="celular" class="userDataCelular"></span>
-        </p>
-        <p>
-          <strong>Número de Documento:</strong>
-          <span id="numeroDocumento" class="userDataNumeroDocumento"></span>
-        </p>
-        <p>
-          <strong>Tipo de Documento:</strong>
-          <span id="tipoDocumento" class="userDataTipoDocumento"></span>
-        </p>
+      <div id="userDetails">
+        <div id="BorrarInfo">
+          <div id="userDataDisplay">
+            <h2>Información del Usuario</h2>
+            <p>
+              <strong>Primer Nombre:</strong>
+              <span id="primerNombre" class="userDataPrimerNombre"></span>
+            </p>
+            <p>
+              <strong>Segundo Nombre:</strong>
+              <span id="segundoNombre" class="userDataSegundoNombre"></span>
+            </p>
+            <p>
+              <strong>Apellidos:</strong>
+              <span id="apellidos" class="userDataApellidos"></span>
+            </p>
+            <p>
+              <strong>Fecha de Nacimiento:</strong>
+              <span id="fechaNacimiento" class="userDataFechaNacimiento"></span>
+            </p>
+            <p>
+              <strong>Género:</strong>
+              <span id="genero" class="userDataGenero"></span>
+            </p>
+            <p>
+              <strong>Correo Electrónico:</strong>
+              <span id="email" class="userDataEmail"></span>
+            </p>
+            <p>
+              <strong>Celular:</strong>
+              <span id="celular" class="userDataCelular"></span>
+            </p>
+            <p>
+              <strong>Número de Documento:</strong>
+              <span id="numeroDocumento" class="userDataNumeroDocumento"></span>
+            </p>
+            <p>
+              <strong>Tipo de Documento:</strong>
+              <span id="tipoDocumento" class="userDataTipoDocumento"></span>
+            </p>
+          </div>
+          <form id="borrarPersonaForm">
+            <button type="submit">Borrar</button>
+          </form>
+        </div>
+        <div class="fotoUser">
+          <h2>Foto del usuario</h2>
+          <img id="foto" alt="Foto de la Persona" />
+        </div>
       </div>
-      <form id="borrarPersonaForm">
-        <button type="submit">Borrar</button>
-      </form>
     </div>
     <script src="../consultar.js"></script>
     <script src="../borrar.js"></script>
