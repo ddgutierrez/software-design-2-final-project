@@ -161,7 +161,7 @@ document.addEventListener("DOMContentLoaded", function () {
       birthDate: document.getElementById("fechaNacimiento").value,
       gender: document.getElementById("genero").value,
       email: document.getElementById("email").value,
-      phone: parseInt(document.getElementById("celular").value, 10),
+      phone: document.getElementById("celular").value,
       photo: base64String,
     };
 

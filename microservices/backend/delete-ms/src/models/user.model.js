@@ -63,9 +63,9 @@ const userSchema = new Schema({
     match: [/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, '{VALUE} no es un correo electrónico válido']
   },
   phone: {
-    type: Number,
+    type: String,
     required: [true, 'Celular es requerido'],
-    validate: [(phone) => phone.toString().length == 10, 'El número de celular tiene que ser de 10 caracteres']
+    match: [/^\d{10}$/, 'El número de celular tiene que ser de 10 caracteres']
   },
   photo: {
     type: String, 
