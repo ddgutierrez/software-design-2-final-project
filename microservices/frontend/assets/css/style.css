@@ -5,39 +5,45 @@ body {
   background: rgb(243, 251, 255);
   color: #000000;
   box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 .logo img {
   height: 50px;
 }
+
 .navbar {
   background-color: #3d5466;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
-  padding: 1em;
-  text-align: left;
   padding: 0.5em 2em;
   height: 90px;
+  justify-content: space-between;
+  width: 100%; 
+  box-sizing: border-box;
 }
+
 .navbar .logo {
   font-weight: bold;
   font-size: 24px;
+  margin-right: auto; 
 }
+
 .navbar ul {
   list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 60%;
-  margin-left: 4%;
+  justify-content: flex-end;
+  flex-grow: 1;
+  flex-wrap: wrap;
+  overflow: hidden; 
 }
 
 .navbar ul li {
   padding: 0 10px;
-  margin-right: 100px;
   white-space: nowrap;
 }
 
@@ -53,6 +59,49 @@ body {
   color: #007bff;
 }
 
+@media (max-width: 1024px) {
+  .navbar ul {
+    justify-content: flex-start;
+  }
+
+  .navbar ul li {
+    margin-right: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0.5em 1em;
+    height: auto;
+  }
+
+  .navbar ul {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .navbar ul li {
+    width: 100%;
+    margin: 5px 0;
+  }
+
+  .navbar ul li a {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar .logo {
+    font-size: 20px;
+  }
+
+  .navbar ul li a {
+    font-size: 14px;
+  }
+}
+
 .hero {
   text-align: center;
   padding: 2em;
@@ -63,6 +112,7 @@ body {
   justify-content: space-evenly;
   align-items: center;
 }
+
 .hero .hero-left {
   height: 60%;
   display: flex;
@@ -71,14 +121,17 @@ body {
   justify-content: space-evenly;
   align-items: center;
 }
+
 .hero .hero-left h1 {
   font-size: 2.5em;
   margin-bottom: 0.5em;
 }
+
 .hero .hero-left {
   font-size: 1.2em;
   margin-bottom: 1.5em;
 }
+
 .hero .hero-left button {
   padding: 1em 2em;
   font-size: 1em;
@@ -90,10 +143,12 @@ body {
   height: auto;
   width: auto;
 }
+
 .hero img {
   width: auto;
   height: 90%;
 }
+
 .features {
   display: flex;
   justify-content: space-around;
@@ -105,21 +160,27 @@ body {
   height: 60vh;
   padding: 0px 40px;
 }
+
 .feature-item {
   text-align: center;
   flex-basis: 30%;
 }
+
 .feature-item h3 {
   font-size: 1.2em;
   color: #333;
 }
+
 .feature-item p {
   color: #666;
 }
+
 .icon {
-  font-size: 48px; /* Replace with actual icons */
+  font-size: 48px;
+  /* Replace with actual icons */
   margin-bottom: 1em;
 }
+
 .hero::before {
   content: "";
   position: fixed;
@@ -131,6 +192,7 @@ body {
   background-color: #e8ecf5;
   transform: skewY(135deg);
 }
+
 .container {
   display: flex;
   flex-direction: column;
@@ -142,6 +204,7 @@ body {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   width: 100%;
 }
+
 .container h1 {
   align-self: center;
 }
@@ -150,7 +213,7 @@ body {
   border: 2px solid #3d5466;
   border-radius: 20px;
   padding: 20px;
-  background-color:  rgba(179, 179, 179, 0.2);
+  background-color: rgba(179, 179, 179, 0.2);
   margin-bottom: 30px;
 }
 
@@ -240,27 +303,33 @@ form div {
   justify-content: space-between;
   padding: 10px 0px;
 }
+
 form div label {
   display: block;
   width: 20%;
   text-align: start;
   padding-right: 10px;
 }
+
 form div input,
 form div select {
   width: 300px;
 }
+
 form div input,
 #crearPersonaForm div select,
 form div button {
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #ddd;
-  box-sizing: border-box; /* Include padding and border in element's width and height */
+  box-sizing: border-box;
+  /* Include padding and border in element's width and height */
 }
+
 form button,
 div button {
-  background-color: #5cb85c; /* Success green */
+  background-color: #5cb85c;
+  /* Success green */
   color: white;
   font-size: 16px;
   margin-top: 20px;
@@ -271,6 +340,7 @@ div button {
   cursor: pointer;
   margin: 0 0px 30px;
 }
+
 #borrarPersonaForm button {
   margin-top: 20px;
   background-color: rgb(205, 28, 28);
@@ -302,6 +372,7 @@ input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
 #logResults {
   margin-top: 20px;
   width: 60%;
@@ -315,15 +386,48 @@ table {
   border-collapse: collapse;
 }
 
-table, th, td {
+table,
+th,
+td {
   border: 1px solid #ddd;
 }
 
-th, td {
+th,
+td {
   padding: 12px;
   text-align: left;
 }
 
 th {
   background-color: #f2f2f2;
+}
+
+input[type="date"]::-webkit-datetime-edit, input[type="date"]::-webkit-inner-spin-button, input[type="date"]::-webkit-clear-button {
+  color: #fff;
+  position: relative;
+}
+
+input[type="date"]::-webkit-datetime-edit-year-field{
+  position: absolute !important;
+  border-left:1px solid #8c8c8c;
+  padding: 2px;
+  color:#000;
+  left: 56px;
+}
+
+input[type="date"]::-webkit-datetime-edit-month-field{
+  position: absolute !important;
+  border-left:1px solid #8c8c8c;
+  padding: 2px;
+  color:#000;
+  left: 26px;
+}
+
+
+input[type="date"]::-webkit-datetime-edit-day-field{
+  position: absolute !important;
+  color:#000;
+  padding: 2px;
+  left: 4px;
+  
 }

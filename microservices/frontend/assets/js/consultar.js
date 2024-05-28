@@ -13,6 +13,12 @@ document.addEventListener("DOMContentLoaded", function () {
   // Obtener elementos de entrada
   const numDocumentoInput = document.getElementById("searchNumeroDocumento");
 
+  //Funcion para manejar formato correcto de fecha
+  function formatDate(dateStr) {
+    const [year, month, day] = dateStr.split('-');
+    return `${day}-${month}-${year}`;
+  }  
+
   // Agregar eventos de escucha para validaciones en tiempo real
   numDocumentoInput.addEventListener("keypress", function (event) {
     validarInput(this, regexNumDocumento, event);
@@ -87,8 +93,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("primerNombre").innerText = data.firstName;
     document.getElementById("segundoNombre").innerText = data.middleName;
     document.getElementById("apellidos").innerText = data.lastName;
-    document.getElementById("fechaNacimiento").innerText =
-      data.birthDate.split("T")[0];
+    document.getElementById("fechaNacimiento").innerText = formatDate(data.birthDate.split("T")[0]);
     document.getElementById("genero").innerText = data.gender;
     document.getElementById("email").innerText = data.email;
     document.getElementById("celular").innerText = data.phone;

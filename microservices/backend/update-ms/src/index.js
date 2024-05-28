@@ -18,11 +18,17 @@ app.set('json spaces', 2);
 
 // Middlewares
 app.use(cors());
-app.use(bodyParser.json({ limit: '50mb' }));
-app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+app.use(bodyParser.json({ limit: '100mb' }));
+app.use(bodyParser.urlencoded({ limit: '100mb', extended: true }));
 app.use(express.urlencoded({extended: true})); 
 app.use(express.json());
 app.use(morgan('dev'));
+
+// Log the payload size
+app.use((req, res, next) => {
+  console.log('Payload size:', Buffer.byteLength(JSON.stringify(req.body)), 'bytes');
+  next();
+});
 
 // Functions
 async function updateUser(req, res) {

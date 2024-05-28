@@ -1,10 +1,11 @@
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("actualizarPersonaForm");
   const limpiarButton = document.getElementById("limpiar");
+  const buscarButton = document.getElementById("buscarButton");
   const form1 = document.getElementById("buscarPersonaForm");
+  let originalData = {};
 
-  form1.addEventListener("submit", function (event) {
-    event.preventDefault();
+  buscarButton.addEventListener("click", function () {
     const idNumber = document.getElementById("searchNumeroDocumento1").value;
     fetchUserDataEditar(idNumber);
   });
@@ -51,40 +52,165 @@ document.addEventListener("DOMContentLoaded", function () {
   const generoInput = document.getElementById("genero1");
   const fechaInput = document.getElementById("fechaNacimiento1");
 
-  // Recuperar valores del sessionStorage si existen
-  const inputs = [
-    numDocumentoInput,
-    primerNombreInput,
-    segundoNombreInput,
-    apellidosInput,
-    emailInput,
-    celularInput,
-    generoInput,
-    fechaInput,
-  ];
+  // Custom validation messages
+  emailInput.addEventListener("input", function () {
+    if (emailInput.validity.typeMismatch) {
+      emailInput.setCustomValidity("Por favor, incluye un '@' en la dirección de correo electrónico.");
+    } else if (emailInput.validity.patternMismatch) {
+      emailInput.setCustomValidity("El formato del correo electrónico no es correcto.");
+    } else {
+      emailInput.setCustomValidity("");
+    }
+  });
 
-  if (!sessionStorage.getItem("formCleared")) {
-    inputs.forEach((input) => {
-      const savedValue = sessionStorage.getItem(input.id);
-      if (savedValue) {
-        input.value = savedValue;
-      }
-
-      // Guardar el valor en el sessionStorage cuando cambie
-      input.addEventListener("input", () => {
-        sessionStorage.setItem(input.id, input.value);
+  function fetchUserDataEditar(idNumber) {
+    fetch("http://localhost:8000/read/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ idNumber: idNumber }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else if (response.status === 404) {
+          throw new Error("Número de documento no existe");
+        } else {
+          throw new Error("Failed to fetch persona data");
+        }
+      })
+      .then((data) => {
+        if (data.length > 0) {
+          populateFormData(data[0]); // Llenar los datos del formulario
+          originalData = data[0]; // Guardar los datos originales
+        } else {
+          alert(
+            "No se encontraron datos para el número de identificación proporcionado"
+          );
+        }
+      })
+      .catch((error) => {
+        alert("Error: " + error.message);
       });
+  }
+
+  // Asegúrate de que la función esté disponible globalmente
+  window.fetchUserDataEditar = fetchUserDataEditar;
+
+  // Función para llenar los campos del formulario
+  function populateFormData(userData) {
+    document.getElementById("tipoDocumento1").value = userData.idType;
+    document.getElementById("idNumber").value = userData.idNumber;
+    document.getElementById("primerNombre1").value = userData.firstName;
+    document.getElementById("segundoNombre1").value = userData.middleName;
+    document.getElementById("apellidos1").value = userData.lastName;
+    document.getElementById("fechaNacimiento1").value =
+      userData.birthDate.split("T")[0];
+    document.getElementById("genero1").value = userData.gender;
+    document.getElementById("email1").value = userData.email;
+    document.getElementById("celular1").value = userData.phone;
+  }
+
+  // Comparar los valores del formulario con los datos originales
+  function getChangedFields() {
+    const changedFields = {};
+    if (originalData.idType !== tipoDocumentoInput.value) {
+      changedFields.idType = tipoDocumentoInput.value;
+    }
+    if (originalData.firstName !== primerNombreInput.value) {
+      changedFields.firstName = primerNombreInput.value;
+    }
+    if (originalData.middleName !== segundoNombreInput.value) {
+      changedFields.middleName = segundoNombreInput.value;
+    }
+    if (originalData.lastName !== apellidosInput.value) {
+      changedFields.lastName = apellidosInput.value;
+    }
+    if (originalData.birthDate.split("T")[0] !== fechaInput.value) {
+      changedFields.birthDate = fechaInput.value;
+    }
+    if (originalData.gender !== generoInput.value) {
+      changedFields.gender = generoInput.value;
+    }
+    if (originalData.email !== emailInput.value) {
+      changedFields.email = emailInput.value;
+    }
+    if (originalData.phone !== celularInput.value) {
+      changedFields.phone = celularInput.value;
+    }
+    return changedFields;
+  }
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    const idNumber = document.getElementById("idNumber").value;
+    const fileInput = document.getElementById("foto1");
+    const file = fileInput.files[0];
+
+    if (file && file.size > 2097152) {
+      alert("El tamaño de la foto debe ser menor de 2 MB.");
+      return;
+    } else if (file) {
+      toBase64(file)
+        .then((base64String) => {
+          updateUserData(idNumber, base64String);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else {
+      updateUserData(idNumber);
+    }
+  });
+
+  function toBase64(file) {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = () => {
+        resolve(fileReader.result.split(",")[1]); // Obteniendo solo la cadena base64
+      };
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
     });
-  } else {
-    // Remover el indicador después de la primera carga post limpieza
-    sessionStorage.removeItem("formCleared");
-    location.reload();
+  }
+
+  function updateUserData(idNumber, base64String = null) {
+    const formData = getChangedFields();
+    formData.idNumber = idNumber;
+
+    if (base64String) {
+      formData.photo = base64String;
+    }
+
+    fetch(`http://localhost:8000/update/`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error("Failed to update persona data");
+        }
+      })
+      .then((data) => {
+        alert("Persona actualizada con éxito!");
+      })
+      .catch((error) => {
+        alert("Error: " + error.message);
+      });
   }
 
   // Expresiones regulares para validaciones
   const regexNumDocumento = /^\d{1,10}$/;
-  const regexNombres = /^[A-Za-z\s]{1,30}$/;
-  const regexApellidos = /^[A-Za-z\s]{1,60}$/;
+  const regexNombres = /^[A-Za-zñÑ\s]{1,30}$/;
+  const regexApellidos = /^[A-Za-zñÑ\s]{1,60}$/;
   const regexEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
   const regexCelular = /^\d{1,10}$/;
 
@@ -124,186 +250,5 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
       input.classList.remove("invalid");
     }
-  }
-
-  window.fetchUserDataEditar = function () {
-    const idNumber = document.getElementById("searchNumeroDocumento1").value;
-    fetch("http://localhost:8000/read/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ idNumber: idNumber }),
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else if (response.status === 404) {
-          throw new Error("Número de documento no existe");
-        } else {
-          throw new Error("Failed to update persona data");
-        }
-      })
-      .then((data) => {
-        if (data.length > 0) {
-          populateFormData(data[0]); // Llenar los datos del formulario
-          // Guardar los datos en sessionStorage
-          sessionStorage.setItem("userData", JSON.stringify(data[0]));
-        } else {
-          alert(
-            "No se encontraron datos para el número de identificación proporcionado"
-          );
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        alert("Error: " + error.message);
-      });
-  };
-
-  // Función para llenar los campos del formulario
-  function populateFormData(userData) {
-    document.getElementById("tipoDocumento1").value = userData.idType;
-    document.getElementById("primerNombre1").value = userData.firstName;
-    document.getElementById("segundoNombre1").value = userData.middleName;
-    document.getElementById("apellidos1").value = userData.lastName;
-    document.getElementById("fechaNacimiento1").value =
-      userData.birthDate.split("T")[0];
-    document.getElementById("genero1").value = userData.gender;
-    document.getElementById("email1").value = userData.email;
-    document.getElementById("celular1").value = userData.phone;
-    // Guardar los valores en sessionStorage
-    sessionStorage.setItem("tipoDocumento1", userData.idType);
-    sessionStorage.setItem("primerNombre1", userData.firstName);
-    sessionStorage.setItem("segundoNombre1", userData.middleName);
-    sessionStorage.setItem("apellidos1", userData.lastName);
-    sessionStorage.setItem(
-      "fechaNacimiento1",
-      userData.birthDate.split("T")[0]
-    );
-    sessionStorage.setItem("genero1", userData.gender);
-    sessionStorage.setItem("email1", userData.email);
-    sessionStorage.setItem("celular1", userData.phone);
-  }
-
-  // // Verificar si hay datos almacenados en sessionStorage al cargar la página
-  // window.addEventListener("DOMContentLoaded", function () {
-  //   const storedUserData = sessionStorage.getItem("userData");
-  //   if (storedUserData) {
-  //     const userData = JSON.parse(storedUserData);
-  //     populateFormData(userData);
-  //   }
-  // });
-
-  // Restaurar los valores del sessionStorage en los campos del formulario
-  document.addEventListener("DOMContentLoaded", function () {
-    const tipoDocumentoInput = document.getElementById("tipoDocumento1");
-    const primerNombreInput = document.getElementById("primerNombre1");
-    const segundoNombreInput = document.getElementById("segundoNombre1");
-    const apellidosInput = document.getElementById("apellidos1");
-    const fechaInput = document.getElementById("fechaNacimiento1");
-    const generoInput = document.getElementById("genero1");
-    const emailInput = document.getElementById("email1");
-    const celularInput = document.getElementById("celular1");
-
-    tipoDocumentoInput.value = sessionStorage.getItem("tipoDocumento1");
-    primerNombreInput.value = sessionStorage.getItem("primerNombre1");
-    segundoNombreInput.value = sessionStorage.getItem("segundoNombre1");
-    apellidosInput.value = sessionStorage.getItem("apellidos1");
-    fechaInput.value = sessionStorage.getItem("fechaNacimiento1");
-    generoInput.value = sessionStorage.getItem("genero1");
-    emailInput.value = sessionStorage.getItem("email1");
-    celularInput.value = sessionStorage.getItem("celular1");
-
-    // Guardar los valores en sessionStorage cuando cambien
-    const inputs = [
-      tipoDocumentoInput,
-      primerNombreInput,
-      segundoNombreInput,
-      apellidosInput,
-      fechaInput,
-      generoInput,
-      emailInput,
-      celularInput,
-    ];
-    inputs.forEach((input) => {
-      input.addEventListener("input", () => {
-        sessionStorage.setItem(input.id, input.value);
-      });
-    });
-  });
-
-  form.addEventListener("submit", function (event) {
-    event.preventDefault();
-    const idNumber = numDocumentoInput.value;
-    const fileInput = document.getElementById("foto1");
-    const file = fileInput.files[0];
-
-    if (file && file.size > 2097152) {
-      alert("El tamaño de la foto debe ser menor de 2 MB.");
-      return;
-    } else {
-      toBase64(file)
-        .then((base64String) => {
-          console.log("Foto en Base64:", base64String); // Verificar la conversión a Base64
-
-          updateUserData(idNumber, base64String);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }
-  });
-
-  function toBase64(file) {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-      fileReader.onload = () => {
-        resolve(fileReader.result.split(",")[1]); // Obteniendo solo la cadena base64
-      };
-      fileReader.onerror = (error) => {
-        reject(error);
-      };
-    });
-  }
-
-  function updateUserData(idNumber, base64String) {
-
-
-    const formData = {
-      idNumber: idNumber,
-      firstName: document.getElementById("primerNombre1").value,
-      middleName: document.getElementById("segundoNombre1").value,
-      lastName: document.getElementById("apellidos1").value,
-      birthDate: document.getElementById("fechaNacimiento1").value,
-      gender: document.getElementById("genero1").value,
-      email: document.getElementById("email1").value,
-      phone: parseInt(document.getElementById("celular1").value, 10),
-      photo: base64String,
-    };
-
-    fetch("http://localhost:8000/update/", {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error("Failed to update persona data");
-        }
-      })
-      .then((data) => {
-        console.log("Updated Data:", data);
-        alert("Persona actualizada con éxito!");
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        alert("Error: " + error.message);
-      });
   }
 });
