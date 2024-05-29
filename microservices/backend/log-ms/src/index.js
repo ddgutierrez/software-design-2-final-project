@@ -21,16 +21,15 @@ app.use(express.json());
 
 // Functions
 async function getLogs(req, res) {
-  const {idNumber, date, action} = req.body;
+  const {idNumber, date, action} = req.query;
   const query = { };
   if (idNumber) query.idNumber = idNumber;
   if (date) query.createdAt = { $gte: date + "T00:00:00.000Z", $lt: date + "T23:59:59.999Z" };
   if (action) query.action = action;
-
   try {
     const log = await Log.find(query).sort({ createdAt: -1 });
-    res.status(201).json(log);
-    console.log(`log: ${log._id} read successfully!`);
+    res.status(200).json(log);
+    console.log("log read successfully!");
   } catch (e) {
     res.status(500).json({ error: e.message });
   }

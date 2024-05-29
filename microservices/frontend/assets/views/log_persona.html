@@ -31,7 +31,6 @@
             id="searchNumeroDocumento"
             name="searchNumeroDocumento"
             maxlength="10"
-            minlength="1"
             pattern="^[0-9]{1,10}$"
           />
         </div>
@@ -42,6 +41,16 @@
             id="searchFecha"
             name="searchFecha"
           />
+        </div>
+        <div>
+          <label for="tipoAccion">Tipo de Acción:</label>
+          <select id="tipoAccion" name="tipoAccion" required>
+            <option value="">Sin seleccionar</option>
+            <option value="crear usuario">Crear usuario</option>
+            <option value="leer usuario">Leer usuario</option>
+            <option value="actualizar usuario">Actualizar usuario</option>
+            <option value="eliminar usuario">Eliminar usuario</option>
+          </select>
         </div>
         <button type="button" onclick="fetchLogData()">Buscar</button>
       </form>
