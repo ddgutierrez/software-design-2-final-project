@@ -52,7 +52,10 @@
             type="text"
             id="primerNombre1"
             name="primerNombre"
+            pattern="^[A-Za-zñÑ][A-Za-zñÑ\s]{0,29}$"
+            title="Máx 30 caracteres"
             maxlength="30"
+            minlength="1"
             required
           />
         </div>
@@ -62,7 +65,11 @@
             type="text"
             id="segundoNombre1"
             name="segundoNombre"
+            pattern="^[A-Za-zñÑ][A-Za-zñÑ\s]{0,29}$"
+            title="Máx 30 caracteres"
             maxlength="30"
+            minlength="1"
+            required
           />
         </div>
         <div>
@@ -72,6 +79,9 @@
             id="apellidos1"
             name="apellidos"
             maxlength="60"
+            minlength="1"
+            pattern="^[A-Za-zñÑ][A-Za-zñÑ\s]{0,59}$"
+            title="Máx 60 caracteres"
             required
           />
         </div>
@@ -110,7 +120,8 @@
             type="number"
             id="celular1"
             name="celular"
-            pattern="\d{10}"
+            pattern="^[0-9]{10}$"
+            title="Deben ser 10 números"
             required
           />
         </div>
