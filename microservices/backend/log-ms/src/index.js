@@ -21,10 +21,11 @@ app.use(express.json());
 
 // Functions
 async function getLogs(req, res) {
-  const {idNumber, date} = req.body;
+  const {idNumber, date, action} = req.body;
   const query = { };
   if (idNumber) query.idNumber = idNumber;
   if (date) query.createdAt = { $gte: date + "T00:00:00.000Z", $lt: date + "T23:59:59.999Z" };
+  if (action) query.action = action;
 
   try {
     const log = await Log.find(query).sort({ createdAt: -1 });
