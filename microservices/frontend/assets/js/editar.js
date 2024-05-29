@@ -52,17 +52,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const generoInput = document.getElementById("genero1");
   const fechaInput = document.getElementById("fechaNacimiento1");
 
-  // Custom validation messages
-  emailInput.addEventListener("input", function () {
-    if (emailInput.validity.typeMismatch) {
-      emailInput.setCustomValidity("Por favor, incluye un '@' en la dirección de correo electrónico.");
-    } else if (emailInput.validity.patternMismatch) {
-      emailInput.setCustomValidity("El formato del correo electrónico no es correcto.");
-    } else {
-      emailInput.setCustomValidity("");
-    }
-  });
-
   function fetchUserDataEditar(idNumber) {
     fetch("http://localhost:8000/read/", {
       method: "POST",
@@ -209,8 +198,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Expresiones regulares para validaciones
   const regexNumDocumento = /^\d{1,10}$/;
-  const regexNombres = /^[A-Za-zñÑ\s]{1,30}$/;
-  const regexApellidos = /^[A-Za-zñÑ\s]{1,60}$/;
+  const regexNombres = /^[A-Za-zñÑ][A-Za-zñÑ\s]{0,29}$/;
+  const regexApellidos = /^[A-Za-zñÑ][A-Za-zñÑ\s]{0,59}$/;
   const regexEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
   const regexCelular = /^\d{1,10}$/;
 

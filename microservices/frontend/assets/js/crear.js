@@ -58,8 +58,8 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   const regexNumDocumento = /^\d{1,10}$/;
-  const regexNombres = /^[A-Za-zñÑ\s]{1,30}$/;
-  const regexApellidos = /^[A-Za-zñÑ\s]{1,60}$/;
+  const regexNombres = /^[A-Za-zñÑ][A-Za-zñÑ\s]{0,29}$/;
+  const regexApellidos = /^[A-Za-zñÑ][A-Za-zñÑ\s]{0,59}$/;
   const regexEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
   const regexCelular = /^\d{1,10}$/;
 
