@@ -38,7 +38,7 @@ async function updateUser(req, res) {
   console.log(req.body);
   try {
     const user = await User.findOneAndUpdate(
-      { idNumber: idNumber, deleted: false },
+      { idNumber: idNumber },
       { idType, firstName, middleName, lastName, birthDate, gender, email, phone, photo },
       { new: true }
     );

@@ -28,7 +28,7 @@ app.use(morgan('dev'));
 async function getUser(req, res) {
   const { idNumber } = req.body;
   try {
-    const user = await User.find({ idNumber, deleted: false });
+    const user = await User.find({ idNumber });
     if (user === null || user.length === 0) {
       res.status(404).json({ error: 'User not found' });
       console.log('User not found');
