@@ -101,7 +101,6 @@ document.addEventListener("DOMContentLoaded", function () {
   // Función para llenar los campos del formulario
   function populateFormData(userData) {
     document.getElementById("tipoDocumento1").value = userData.idType;
-    document.getElementById("idNumber").value = userData.idNumber;
     document.getElementById("primerNombre1").value = userData.firstName;
     document.getElementById("segundoNombre1").value = userData.middleName;
     document.getElementById("apellidos1").value = userData.lastName;
@@ -144,7 +143,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   form.addEventListener("submit", function (event) {
     event.preventDefault();
-    const idNumber = document.getElementById("idNumber").value;
+    const idNumber = document.getElementById("searchNumeroDocumento1").value;
     const fileInput = document.getElementById("foto1");
     const file = fileInput.files[0];
 
@@ -178,6 +177,9 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function updateUserData(idNumber, base64String = null) {
+    if(Object.keys(originalData).length === 0){
+      originalData.birthDate = "2000-01-01T00:00:00.000Z";
+    }
     const formData = getChangedFields();
     formData.idNumber = idNumber;
 
