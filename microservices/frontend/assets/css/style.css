@@ -145,8 +145,8 @@ body {
 }
 
 .hero img {
-  width: auto;
-  height: 90%;
+  width: auto;  
+  height: 70%;
 }
 
 .features {
@@ -157,28 +157,32 @@ body {
   background: rgb(243, 251, 255);
   width: calc(100% - 80px);
   height: auto;
-  height: 60vh;
   padding: 0px 40px;
 }
 
 .feature-item {
   text-align: center;
   flex-basis: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .feature-item h3 {
   font-size: 1.2em;
   color: #333;
+  margin-top: 0.5em; /* Agregar un margen superior para proporcionar espacio entre el icono y el título */
 }
 
 .feature-item p {
   color: #666;
+  font-size: 0.9em; /* Opcional: Ajustar el tamaño del texto si es necesario */
 }
 
-.icon {
-  font-size: 48px;
-  /* Replace with actual icons */
-  margin-bottom: 1em;
+.icon img {
+  width: 70px; /* Tamaño uniforme para todos los iconos */
+  height: 70px; /* Tamaño uniforme para todos los iconos */
+  margin-bottom: 1em; /* Espacio entre el icono y el texto debajo */
 }
 
 .hero::before {
