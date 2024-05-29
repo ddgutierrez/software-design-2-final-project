@@ -27,9 +27,11 @@
         <div>
           <label for="searchNumeroDocumento">Número de Documento:</label>
           <input
-            type="number"
+            type="text"
             id="searchNumeroDocumento"
             name="searchNumeroDocumento"
+            maxlength="10"
+            minlength="1"
             pattern="\d{1,10}"
             required
           />
