@@ -23,14 +23,12 @@ app.use(express.json());
 // Functions
 async function deleteUser(req, res) {
   const { idNumber } = req.body;
-  const update = { deleted: true };
   try {
-    const user = await User.findOneAndUpdate({ idNumber: idNumber, deleted: false }, update, {
-      new: true,
-    });
+    const user = await User.findOneAndDelete({ idNumber: idNumber });
     if (user === null || user.length === 0) {
       res.status(404).json({ error: 'User not found' });
     } else {
+      user.delete
       console.log('user deleted');
       const action = 'eliminar usuario';
       const newLog = new Log({ action, idNumber });

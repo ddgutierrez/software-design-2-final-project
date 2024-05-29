@@ -72,10 +72,6 @@ const userSchema = new Schema({
     required: [false, 'Foto es requerida'],
     max: [2097152, 'El tamaño del archivo no puede superar los 2 MB'], // 2MB = 2097152B
   },
-  deleted: {
-    type: Boolean,
-    default: false,
-  },
 });
 
 module.exports = mongoose.model('Users', userSchema);
