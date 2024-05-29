@@ -48,6 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((data) => {
         console.log("Updated Data:", data);
         alert("Persona borrada con éxito!");
+        location.reload();
       })
       .catch((error) => {
         console.error("Error:", error);
