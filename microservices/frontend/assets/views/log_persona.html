@@ -30,11 +30,13 @@
             type="number"
             id="searchNumeroDocumento"
             name="searchNumeroDocumento"
-            pattern="\d{1,10}"
+            maxlength="10"
+            minlength="1"
+            pattern="^[0-9]{1,10}$"
           />
         </div>
         <div>
-          <label for="searchFecha">Fecha (Opcional):</label>
+          <label for="searchFecha">Fecha:</label>
           <input
             type="date"
             id="searchFecha"

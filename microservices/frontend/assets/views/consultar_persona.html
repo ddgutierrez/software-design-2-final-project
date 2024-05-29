@@ -30,7 +30,9 @@
             type="number"
             id="searchNumeroDocumento"
             name="searchNumeroDocumento"
-            pattern="\d{1,10}"
+            maxlength="10"
+            minlength="1"
+            pattern="^[0-9]{1,10}$"
             required
           />
         </div>

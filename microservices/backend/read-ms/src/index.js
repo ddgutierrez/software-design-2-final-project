@@ -28,14 +28,14 @@ app.use(morgan('dev'));
 async function getUser(req, res) {
   const { idNumber } = req.body;
   try {
-    const user = await User.find({ idNumber });
+    const user = await User.find({ idNumber:idNumber });
     if (user === null || user.length === 0) {
       res.status(404).json({ error: 'User not found' });
       console.log('User not found');
     } else {
       console.log('User found');
       const action = 'leer usuario';
-      const newLog = new Log({ action, idNumber });
+      const newLog = new Log({ action:action, idNumber:idNumber });
       await newLog.save();
       res.status(200).json(user);
     }
