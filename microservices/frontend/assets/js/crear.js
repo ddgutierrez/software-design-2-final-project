@@ -183,6 +183,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
       if (response.ok) {
         console.log("Response:", response.json());
+        limpiarFormulario();
         alert("Persona creada con éxito!");
       } else if (response.status === 400) {
         throw new Error("El número de documento ya existe");
