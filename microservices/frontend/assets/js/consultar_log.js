@@ -26,7 +26,7 @@ async function fetchLogData() {
     if(response.ok) {
       const data = await response.json();
       if (data.length === 0) {
-        logResults.innerHTML = '<p>No logs found</p>';
+        logResults.innerHTML = '<p>No se encontraron resultados con los filtros utilizados</p>';
       } else {
         logResults.innerHTML = `
           <table>
