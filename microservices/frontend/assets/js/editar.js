@@ -152,8 +152,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     if (
-      originalData.middleName !== segundoNombreInput.value &&
-      segundoNombreInput.value.trim() !== ""
+      originalData.middleName !== segundoNombreInput.value
     ) {
       changedFields.middleName = segundoNombreInput.value;
     }

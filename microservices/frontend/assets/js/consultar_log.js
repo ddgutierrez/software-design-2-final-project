@@ -4,10 +4,13 @@ async function fetchLogData() {
   const action = document.getElementById("tipoAccion").value;
   const logResults = document.getElementById("logResults");
   logResults.innerHTML = ""; // Clear previous results
-  const birthDate = date.split("T")[0];
-  const dateParts = birthDate.split("-");
-  const formattedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
-  console.log(formattedDate);
+  let formattedDate = "";
+  if (date) {
+    const birthDate = date.split("T")[0];
+    const dateParts = birthDate.split("-");
+    formattedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
+    console.log(formattedDate);
+  }
 
   // Validate the idNumberInput against the pattern \d{1,10}
   const idNumberPattern = /^\d{0,10}$/;
