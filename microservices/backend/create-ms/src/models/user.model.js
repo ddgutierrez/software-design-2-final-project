@@ -31,7 +31,7 @@ const userSchema = new Schema({
     required: false,
     maxLength: [30, 'No se permiten nombres con más de 30 caracteres'],
     validate:{ 
-      validator: (str) => isNaN(str),
+      validator: (str) => (str.length == 0 || isNaN(str) == true),
       message: 'No se permiten números como nombres',
     },
   },
