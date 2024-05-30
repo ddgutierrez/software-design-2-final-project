@@ -154,7 +154,6 @@ document.addEventListener("DOMContentLoaded", function () {
       idType: document.getElementById("tipoDocumento").value,
       idNumber: parseInt(document.getElementById("numeroDocumento").value, 10),
       firstName: document.getElementById("primerNombre").value,
-      middleName: document.getElementById("segundoNombre").value,
       lastName: document.getElementById("apellidos").value,
       birthDate: document.getElementById("fechaNacimiento").value,
       gender: document.getElementById("genero").value,
@@ -162,12 +161,15 @@ document.addEventListener("DOMContentLoaded", function () {
       phone: document.getElementById("celular").value,
       photo: base64String,
     };
-
+    const middleName = document.getElementById("segundoNombre").value;
+    if (middleName) {
+      formData.middleName = middleName;
+    }
     console.log("Datos del formulario:", formData);
     submitForm(formData);
   }
-  
-  async function submitForm(formData){
+
+  async function submitForm(formData) {
     try {
       const response = await fetch("http://localhost:8000/create", {
         method: "POST",
@@ -176,7 +178,7 @@ document.addEventListener("DOMContentLoaded", function () {
         },
         body: JSON.stringify(formData),
       });
-      if(response.ok) {
+      if (response.ok) {
         console.log("Response:", response.json());
         alert("Persona creada con éxito!");
       } else if (response.status === 400) {
@@ -189,9 +191,9 @@ document.addEventListener("DOMContentLoaded", function () {
         throw new Error("Unknown Error");
       }
     } catch (error) {
-      if(error.message === "Failed to fetch") {
+      if (error.message === "Failed to fetch") {
         alert("Error: api-gateway no está disponible");
-      }else{
+      } else {
         alert("Error: " + error.message);
       }
     }

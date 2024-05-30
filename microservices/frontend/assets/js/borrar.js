@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
   async function deleteUser(idNumber) {
     try {
       const response = await fetch("http://localhost:8000/delete/", {
-      method: "POST",
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },

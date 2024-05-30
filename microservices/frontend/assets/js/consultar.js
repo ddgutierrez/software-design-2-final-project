@@ -76,7 +76,11 @@ document.addEventListener("DOMContentLoaded", function () {
   function populateFormData(data) {
     document.getElementById("tipoDocumento").value = data.idType;
     document.getElementById("primerNombre").value = data.firstName;
-    document.getElementById("segundoNombre").value = data.middleName;
+    if(typeof data.middleName === 'undefined' || data.middleName === ''){
+      document.getElementById("segundoNombre").value = '';
+    }else{
+      document.getElementById("segundoNombre").value = data.middleName;
+    }
     document.getElementById("apellidos").value = data.lastName;
     document.getElementById("fechaNacimiento").value =
       data.birthDate.split("T")[0];
@@ -89,7 +93,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function displayUserData(data) {
     document.getElementById("primerNombre").innerText = data.firstName;
-    document.getElementById("segundoNombre").innerText = data.middleName;
+    if (typeof data.middleName === 'undefined' || data.middleName === '') {
+      document.getElementById("segundoNombre").innerText = '';
+    } else {
+      document.getElementById("segundoNombre").innerText = data.middleName;
+    }
     document.getElementById("apellidos").innerText = data.lastName;
     document.getElementById("fechaNacimiento").innerText = formatDate(data.birthDate.split("T")[0]);
     document.getElementById("genero").innerText = data.gender;
