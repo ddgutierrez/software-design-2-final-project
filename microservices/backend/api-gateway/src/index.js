@@ -25,6 +25,10 @@ app.use('/create', proxy(process.env.CREATE_MS_URL, {
       { 
         return res.status(503).json({ error:'Create microservice is not available' });
       }
+      case 'EAI_AGAIN':    
+      { 
+        return res.status(503).json({ error:'Create microservice is not available' });
+      }
       default:              
       { 
         console.log(":(");
