@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Crear Personas</title>
     <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   </head>
   <body>
     <div class="navbar">
@@ -46,6 +48,7 @@
             minlength="1"
             pattern="^[0-9]{1,10}$"
             title="Max 10 números"
+            placeholder="Número de Documento"
             required
           />
         </div>
@@ -59,6 +62,7 @@
             title="Máx 30 caracteres"
             maxlength="30"
             minlength="1"
+            placeholder="Primer Nombre"
             required
           />
         </div>
@@ -72,6 +76,7 @@
             minlength="1"
             pattern="^[A-Za-zñÑ][A-Za-zñÑ\s]{0,29}$"
             title="Máx 30 caracteres"
+            placeholder="Segundo Nombre (opcional)"
           />
         </div>
         <div>
@@ -84,6 +89,7 @@
             minlength="1"
             pattern="^[A-Za-zñÑ][A-Za-zñÑ\s]{0,59}$"
             title="Máx 60 caracteres"
+            placeholder="Apellidos"
             required
           />
         </div>
@@ -91,8 +97,9 @@
           <label for="fechaNacimiento">Fecha de Nacimiento:</label>
           <input
             type="date"
-            id="fechaNacimiento"
+            id="datepicker"
             name="fechaNacimiento"
+            placeholder="Selecciona o ingresa una fecha (dd-mm-yyyy)"
             required
           />
         </div>
@@ -113,6 +120,7 @@
             name="email"
             title="Complete con el formato de correo"
             pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
+            placeholder="Correo Electrónico"
             required
           />
         </div>
@@ -124,6 +132,7 @@
             name="celular"
             pattern="^[0-9]{10}$"
             title="Deben ser 10 números"
+            placeholder="Celular"
             required
           />
         </div>
@@ -132,8 +141,17 @@
           <input type="file" id="foto" name="foto" accept="image/*" required />
         </div>
         <div class="botones_modificar">
-          <button type="submit">Crear</button>
-          <button type="submit" id="limpiar">Limpiar datos</button>
+          <div id="crear_limpiar">
+            <button type="submit">Crear</button>
+            <button type="submit" id="limpiar">Limpiar datos</button>
+          </div>
+          <div>
+            <img
+              id="imgUser"
+              src="../img/placefolder-photo.jpg"
+              alt="Foto de la Persona"
+            />
+          </div>
         </div>
       </form>
     </div>

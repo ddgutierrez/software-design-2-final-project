@@ -5,8 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Consultar Log</title>
     <link rel="stylesheet" href="../style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   </head>
   <body>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          flatpickr("#datepicker", {
+              dateFormat: "d-m-Y",
+              allowInput: true,
+              maxDate: "today" // Establecer la fecha máxima en hoy
+
+          });
+      });
+  </script>
     <div class="navbar">
       <div class="logo">
         <a href="../../index.html">
@@ -32,14 +47,17 @@
             name="searchNumeroDocumento"
             maxlength="10"
             pattern="^[0-9]{1,10}$"
+            placeholder="Número de Documento"
           />
         </div>
         <div>
           <label for="searchFecha">Fecha:</label>
           <input
             type="date"
-            id="searchFecha"
+            id="datepicker"
             name="searchFecha"
+            placeholder="Selecciona o ingresa una fecha (dd-mm-yyyy)"
+            required
           />
         </div>
         <div>
@@ -52,7 +70,9 @@
             <option value="eliminar usuario">Eliminar usuario</option>
           </select>
         </div>
-        <button id="buscar_log" type="button" onclick="fetchLogData()">Buscar</button>
+        <button id="buscar_log" type="button" onclick="fetchLogData()">
+          Buscar
+        </button>
       </form>
       <div id="logResults"></div>
     </div>

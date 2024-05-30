@@ -214,6 +214,14 @@ body {
   align-self: center;
 }
 
+.fotoUser_crear {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -80px;
+  margin-right: 13%;
+}
+
+
 #crearPersonaForm {
   border: 2px solid #3d5466;
   border-radius: 20px;
@@ -314,6 +322,7 @@ form div label {
   width: 20%;
   text-align: start;
   padding-right: 10px;
+  text-wrap:nowrap;
 }
 
 form div input,
@@ -358,8 +367,24 @@ form div button:hover {
 .botones_modificar {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+#crear_limpiar{
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
   justify-content: left;
+}
+
+.botones_modificar img {
+  width: 120px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 10%;
+  border: 2px solid #333;
+  margin-right: 175px;
 }
 
 .botones_modificar button {
@@ -377,6 +402,7 @@ input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
 
 #buscar_log{
   margin-top: 2%;

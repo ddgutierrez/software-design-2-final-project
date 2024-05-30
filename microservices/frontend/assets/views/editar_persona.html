@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Modificar Personas</title>
     <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   </head>
   <body>
     <div class="navbar">
@@ -33,6 +35,7 @@
             maxlength="10"
             minlength="1"
             pattern="^[0-9]{1,10}$"
+            placeholder="Número de Documento"
             required
           />
         </div>
@@ -41,7 +44,8 @@
       <form id="actualizarPersonaForm">
         <div>
           <label for="tipoDocumento">Tipo de Documento:</label>
-          <select id="tipoDocumento1" name="tipoDocumento" required>
+          <select id="tipoDocumento1" name="tipoDocumento" >
+            <option value=""></option>
             <option value="Tarjeta de identidad">Tarjeta de Identidad</option>
             <option value="Cedula">Cédula</option>
           </select>
@@ -56,7 +60,7 @@
             title="Máx 30 caracteres"
             maxlength="30"
             minlength="1"
-            required
+            placeholder="Primer Nombre"
           />
         </div>
         <div>
@@ -69,6 +73,7 @@
             title="Máx 30 caracteres"
             maxlength="30"
             minlength="1"
+            placeholder="Segundo Nombre (Opcional)"
           />
         </div>
         <div>
@@ -81,21 +86,24 @@
             minlength="1"
             pattern="^[A-Za-zñÑ][A-Za-zñÑ\s]{0,59}$"
             title="Máx 60 caracteres"
-            required
+            placeholder="Apellidos"
+            
           />
         </div>
         <div>
           <label for="fechaNacimiento">Fecha de Nacimiento:</label>
           <input
-            type="date"
-            id="fechaNacimiento1"
-            name="fechaNacimiento"
-            required
-          />
+          type="date"
+          id="datepicker"
+          name="fechaNacimiento"
+          placeholder="Selecciona o ingresa una fecha (dd-mm-yyyy)"
+          
+        />
         </div>
         <div>
           <label for="genero">Género:</label>
-          <select id="genero1" name="genero" required>
+          <select id="genero1" name="genero" >
+            <option value=""></option>
             <option value="Masculino">Masculino</option>
             <option value="Femenino">Femenino</option>
             <option value="No binario">No binario</option>
@@ -110,18 +118,21 @@
             name="email1"
             title="Complete con el formato de correo"
             pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
-            required
+            placeholder="Correo Electrónico"
+            
           />
         </div>
         <div>
           <label for="celular">Celular:</label>
           <input
-            type="number"
+            type="text"
             id="celular1"
             name="celular"
+            minlength="10"
             pattern="^[0-9]{10}$"
             title="Deben ser 10 números"
-            required
+            placeholder="Celular"
+            
           />
         </div>
         <div>
@@ -129,9 +140,17 @@
           <input type="file" id="foto1" name="foto" accept="image/*" />
         </div>
         <div class="botones_modificar">
-          <button type="submit">Actualizar</button>
-          <button type="submit" id="limpiar">Limpiar datos</button>
-        </div>
+          <div id="crear_limpiar">
+            <button type="submit">Actualizar</button>
+            <button type="submit" id="limpiar">Limpiar datos</button>
+          </div>
+          <div>
+            <img
+              id="imgUser"
+              src="../img/placefolder-photo.jpg"
+              alt="Foto de la Persona"
+            />
+          </div>
       </form>
     </div>
     <script src="../editar.js"></script>

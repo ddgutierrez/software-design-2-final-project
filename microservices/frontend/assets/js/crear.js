@@ -1,11 +1,23 @@
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("crearPersonaForm");
   const limpiarButton = document.getElementById("limpiar");
+  const fileInput = document.getElementById("foto");
+  const imgPreview = document.getElementById("imgUser");
+
+  const flatpickrOptions = {
+    dateFormat: "m-d-Y",
+    allowInput: true,
+    altInput: true,
+    altFormat: "d-m-Y",
+    maxDate: "today" // Establecer la fecha máxima en hoy
+
+  };
+
+  flatpickr("#datepicker", flatpickrOptions);
 
   form.addEventListener("submit", function (event) {
     event.preventDefault();
 
-    const fileInput = document.getElementById("foto");
     const file = fileInput.files[0];
 
     if (file && file.size > 2097152) {
@@ -27,6 +39,17 @@ document.addEventListener("DOMContentLoaded", function () {
     limpiarFormulario();
   });
 
+  fileInput.addEventListener("change", function (event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        imgPreview.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
   function limpiarFormulario() {
     const inputs = [
       document.getElementById("numeroDocumento"),
@@ -35,10 +58,11 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("apellidos"),
       document.getElementById("email"),
       document.getElementById("celular"),
-      document.getElementById("fechaNacimiento"),
+      document.getElementById("datepicker"),
       document.getElementById("foto"),
       document.getElementById("tipoDocumento"),
       document.getElementById("genero"),
+      document.getElementById("imgUser"),
     ];
 
     inputs.forEach((input) => {
@@ -46,6 +70,10 @@ document.addEventListener("DOMContentLoaded", function () {
         input.value = "Masculino";
       } else if (input.id == "tipoDocumento") {
         input.value = "Tarjeta de identidad";
+      } else if (input.id == "imgUser") {
+        input.src = "../img/placefolder-photo.jpg";
+      } else if (input.id == "datepicker") {
+        flatpickr("#datepicker", flatpickrOptions).clear();
       } else {
         input.value = "";
       }
@@ -66,7 +94,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const primerNombreInput = document.getElementById("primerNombre");
   const segundoNombreInput = document.getElementById("segundoNombre");
   const generoInput = document.getElementById("genero");
-  const fechaInput = document.getElementById("fechaNacimiento");
+  const fechaInput = document.getElementById("datepicker");
   const apellidosInput = document.getElementById("apellidos");
   const emailInput = document.getElementById("email");
   const celularInput = document.getElementById("celular");
@@ -81,17 +109,32 @@ document.addEventListener("DOMContentLoaded", function () {
     apellidosInput,
     emailInput,
     celularInput,
+    imgPreview,
   ];
 
   if (!sessionStorage.getItem("formCleared")) {
     inputs.forEach((input) => {
       const savedValue = sessionStorage.getItem(input.id);
       if (savedValue) {
-        input.value = savedValue;
+        if (input.id === "datepicker") {
+          flatpickr("#datepicker", flatpickrOptions).setDate(
+            savedValue,
+            true,
+            "m-d-Y"
+          );
+        } else if (input.id == "imgUser") {
+          input.src = savedValue;
+        } else {
+          input.value = savedValue;
+        }
       }
 
       input.addEventListener("input", () => {
-        sessionStorage.setItem(input.id, input.value);
+        if (input.id == "imgUser") {
+          sessionStorage.setItem(input.id, input.src);
+        } else {
+          sessionStorage.setItem(input.id, input.value);
+        }
       });
     });
   } else {
@@ -155,7 +198,7 @@ document.addEventListener("DOMContentLoaded", function () {
       idNumber: parseInt(document.getElementById("numeroDocumento").value, 10),
       firstName: document.getElementById("primerNombre").value,
       lastName: document.getElementById("apellidos").value,
-      birthDate: document.getElementById("fechaNacimiento").value,
+      birthDate: document.getElementById("datepicker").value,
       gender: document.getElementById("genero").value,
       email: document.getElementById("email").value,
       phone: document.getElementById("celular").value,
@@ -165,7 +208,7 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log(middleName);
     if (middleName) {
       formData.middleName = middleName;
-    }else{
+    } else {
       formData.middleName = "";
     }
     console.log("Datos del formulario:", formData);
