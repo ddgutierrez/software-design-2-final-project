@@ -43,6 +43,10 @@ app.use('/update', proxy(process.env.UPDATE_MS_URL, {
       { 
         return res.status(503).json({ error:'Update microservice is not available' });
       }
+      case 'EAI_AGAIN':    
+      { 
+        return res.status(503).json({ error:'Create microservice is not available' });
+      }
       default:              
       { 
         console.log(":(");
@@ -56,6 +60,10 @@ app.use('/read', proxy(process.env.READ_MS_URL, {
       case 'ENOTFOUND':    
       { 
         return res.status(503).json({ error:'Read microservice is not available' });
+      }
+      case 'EAI_AGAIN':    
+      { 
+        return res.status(503).json({ error:'Create microservice is not available' });
       }
       default:              
       { 
@@ -71,6 +79,10 @@ app.use('/delete', proxy(process.env.DELETE_MS_URL, {
       { 
         return res.status(503).json({ error:'Delete microservice is not available' });
       }
+      case 'EAI_AGAIN':    
+      { 
+        return res.status(503).json({ error:'Create microservice is not available' });
+      }
       default:              
       { 
         console.log(":(");
@@ -84,6 +96,10 @@ app.use('/log', proxy(process.env.LOG_MS_URL, {
       case 'ENOTFOUND':    
       { 
         return res.status(503).json({ error:'Log microservice is not available' });
+      }
+      case 'EAI_AGAIN':    
+      { 
+        return res.status(503).json({ error:'Create microservice is not available' });
       }
       default:              
       { 
