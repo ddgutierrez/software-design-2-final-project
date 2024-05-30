@@ -1,65 +1,91 @@
 <!DOCTYPE html>
 <html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simplifica Tus Datos</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Simplifica Tus Datos</title>
-  <link rel="stylesheet" href="./style.css" />
-</head>
+  <body>
+    <div class="navbar">
+      <div class="logo">
+        <a href="index.html">
+          <img src="./img/logoprueba.png" alt="DataHub Logo" />
+        </a>
+      </div>
+      <ul>
+        <li><a href="./views/crear_persona.html">Crear Personas</a></li>
+        <li>
+          <a href="./views/editar_persona.html">Modificar Datos Personales</a>
+        </li>
+        <li>
+          <a href="./views/consultar_persona.html"
+            >Consultar Datos Personales</a
+          >
+        </li>
+        <li><a href="./views/borrar_persona.html">Borrar Personas</a></li>
+        <li><a href="./views/log_persona.html">Consultar Log</a></li>
+      </ul>
+    </div>
+    <div class="hero">
+      <div class="hero-left">
+        <h1>Simplifica Tus Datos</h1>
+        <p>Gestionar datos personales nunca fue tan sencillo</p>
+      </div>
+      <img src="./img/hero-img.png" alt="hero-img" />
+    </div>
 
-<body>
-  <div class="navbar">
-    <div class="logo">
-      <a href="index.html">
-        <img src="./img/logoprueba.png" alt="DataHub Logo" />
-      </a>
+    <div class="features">
+      <div class="feature-item">
+        <div class="icon">
+          <a href="./views/crear_persona.html">
+            <img src="./img/create-icon.png" alt="Crear Icono" />
+          </a>
+        </div>
+        <h3>Crear</h3>
+        <p>
+          Registra datos de personas de manera eficiente y segura. Ideal para
+          capturar información importante sin complicaciones.
+        </p>
+      </div>
+      <div class="feature-item">
+        <div class="icon">
+          <a href="./views/editar_persona.html">
+            <img src="./img/update-icon.png" alt="Actualizar Icono" />
+          </a>
+        </div>
+        <h3>Actualizar</h3>
+        <p>Mantén tus datos actualizados con herramientas intuitivas.</p>
+      </div>
+      <div class="feature-item">
+        <div class="icon">
+          <a href="./views/borrar_persona.html">
+            <img src="./img/delete-icon.png" alt="Borrar Icono" />
+          </a>
+        </div>
+        <h3>Borrar</h3>
+        <p>
+          Borra información incorrecta o que ya no sea necesaria de manera
+          segura.
+        </p>
+      </div>
+      <div class="feature-item">
+        <div class="icon">
+          <a href="./views/consultar_persona.html">
+            <img src="./img/search-icon.png" alt="Buscar Icono" />
+          </a>
+        </div>
+        <h3>Consultar</h3>
+        <p>Accede a tus datos de manera rápida y segura.</p>
+      </div>
     </div>
-    <ul>
-      <li><a href="./views/crear_persona.html">Crear Personas</a></li>
-      <li>
-        <a href="./views/editar_persona.html">Modificar Datos Personales</a>
-      </li>
-      <li><a href="./views/consultar_persona.html">Consultar Datos Personales</a></li>
-      <li><a href="./views/borrar_persona.html">Borrar Personas</a></li>
-      <li><a href="./views/log_persona.html">Consultar Log</a></li>
-    </ul>
-  </div>
-  <div class="hero">
-    <div class="hero-left">
-      <h1>Simplifica Tus Datos</h1>
-      <p>Gestión de datos y seguridad sin esfuerzos</p>
-    </div>
-    <img src="./img/hero-img.png" alt="hero-img" />
-  </div>
-
-  <div class="features">
-    <div class="feature-item">
-      <div class="icon"><img src="./img/create-icon.png" alt="Crear Icono"></div>
-      <h3>Crear</h3>
-      <p>Registra datos de personas de manera eficiente y segura. Ideal para capturar información importante sin complicaciones.</p>
-    </div>
-    <div class="feature-item">
-      <div class="icon"><img src="./img/update-icon.png" alt="Actualizar Icono"></div>
-      <h3>Actualizar</h3>
-      <p>Mantén tus datos actualizados con herramientas intuitivas.</p>
-    </div>
-    <div class="feature-item">
-      <div class="icon"><img src="./img/delete-icon.png" alt="Borrar Icono"></div>
-      <h3>Borrar</h3>
-      <p>Borra información incorrecta o que ya no sea necesaria de manera segura.</p>
-    </div>
-    <div class="feature-item">
-      <div class="icon"><img src="./img/search-icon.png" alt="Consultar Icono"></div>
-      <h3>Consultar</h3>
-      <p>Accede a tus datos de manera rápida y segura.</p>
-    </div>
-  </div>
-  <script>
-    document.getElementById('descubreMasButton').addEventListener('click', function() {
-      window.location.href = './views/crear_persona.html';
-    });
-  </script>
-</body>
-
+    <script>
+      document
+        .getElementById("descubreMasButton")
+        .addEventListener("click", function () {
+          window.location.href = "./views/crear_persona.html";
+        });
+    </script>
+  </body>
 </html>
