@@ -37,42 +37,40 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  window.fetchUserData = function () {
+  window.fetchUserData = async function () {
     const idNumber = document.getElementById("searchNumeroDocumento").value;
-    fetch("http://localhost:8000/read/", {
+
+    try {
+      const response = await fetch("http://localhost:8000/read/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ idNumber: idNumber }),
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else if (response.status === 404) {
-          throw new Error("Número de documento no existe");
-        } else {
-          throw new Error("Failed to update persona data");
-        }
-      })
-      .then((data) => {
-        if (data.length > 0) {
-          if (document.getElementById("actualizarPersonaForm")) {
-            populateFormData(data[0]);
-          } else {
-            displayUserData(data[0]);
-          }
-        } else {
-          alert("No data found for the provided ID number");
-          alert(
-            "No se encontraron datos para el número de documento proporcionado"
-          );
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        alert("Error: " + error.message);
+      body: JSON.stringify({ idNumber: idNumber })
       });
+      if(response.ok) {
+        const data = await response.json();
+        if (document.getElementById("actualizarPersonaForm")) {
+          populateFormData(data[0]);
+        } else {
+          displayUserData(data[0]);
+        }
+      } else if (response.status === 404) {
+        throw new Error("El número de documento no existe");
+      } else if (response.status === 503) {
+        throw new Error("read-ms no está disponible");
+      } else if (response.status === 504) {
+        throw new Error("la base de datos no está disponible");
+      } else {
+        throw new Error("Unknown Error");
+      }
+    } catch (error) {
+      if(error.message === "Failed to fetch") {
+        alert("Error: api-gateway no está disponible");
+      }else{
+        alert("Error: " + error.message);
+      }
+    }
   };
 
   function populateFormData(data) {

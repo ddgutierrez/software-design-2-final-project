@@ -14,60 +14,56 @@ async function fetchLogData() {
   }
 
   const idNumber = idNumberInput.value;
+  const url = new URL('http://localhost:8000/log/');
+  const params = {};
+  if (idNumber) params.idNumber = idNumber;
+  if (date) params.date = date;
+  if (action) params.action = action;
+  Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
 
-const url = new URL('http://localhost:8000/log/');
-const params = {};
-
-console.log(idNumber);
-console.log(date);
-console.log(action);
-if (idNumber) params.idNumber = idNumber;
-if (date) params.date = date;
-if (action) params.action = action;
-Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
-console.log(url);
-  try{
-    fetch(url)
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      } else if (response.status === 500) {
-        alert('Error al obtener los datos: ' + data.message);
-        throw new Error("Error del servidor");
+  try {
+    const response = await fetch(url);
+    if(response.ok) {
+      const data = await response.json();
+      if (data.length === 0) {
+        logResults.innerHTML = '<p>No logs found</p>';
       } else {
-        console.error('Error:', error);
-        alert('Error al conectar con el servidor.');
-        throw new Error("Error al crear la persona");
-      }
-    }).then(data => { 
-        console.log(data);
-        if (data.length === 0) {
-          logResults.innerHTML = '<p>No logs found</p>';
-        } else {
-          logResults.innerHTML = `
-            <table>
-              <thead>
+        logResults.innerHTML = `
+          <table>
+            <thead>
+              <tr>
+                <th>Número de Documento</th>
+                <th>Acción</th>
+                <th>Fecha de Creación</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${data.map(log => `
                 <tr>
-                  <th>Número de Documento</th>
-                  <th>Acción</th>
-                  <th>Fecha de Creación</th>
+                  <td>${log.idNumber}</td>
+                  <td>${log.action}</td>
+                  <td>${new Date(log.createdAt).toLocaleString()}</td>
                 </tr>
-              </thead>
-              <tbody>
-                ${data.map(log => `
-                  <tr>
-                    <td>${log.idNumber}</td>
-                    <td>${log.action}</td>
-                    <td>${new Date(log.createdAt).toLocaleString()}</td>
-                  </tr>
-                `).join('')}
-              </tbody>
-            </table>
-          `;
-        }
-    });
+              `).join('')}
+            </tbody>
+          </table>
+        `;
+      }
+    } else if (response.status === 404) {
+      throw new Error("El número de documento no existe");
+    } else if (response.status === 503) {
+      throw new Error("log-ms no está disponible");
+    } else if (response.status === 504) {
+      throw new Error("la base de datos no está disponible");
+    } else {
+      throw new Error("Unknown Error");
+    }
   } catch (error) {
-    console.error('Error:', error);
-    alert('Error al conectar con el servidor.');
+    if(error.message === "Failed to fetch") {
+      alert("Error: api-gateway no está disponible");
+    }else{
+      alert("Error: " + error.message);
+    }
   }
+
 }

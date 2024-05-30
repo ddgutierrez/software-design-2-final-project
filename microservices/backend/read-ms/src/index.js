@@ -26,6 +26,11 @@ app.use(morgan('dev'));
 
 // Functions
 async function getUser(req, res) {
+  if(mongoose.connection.readyState == 0){
+    res.status(504).json({ error: 'Database is not connected' });
+    console.log('Database is not connected');
+    return;
+  }
   const { idNumber } = req.body;
   try {
     const user = await User.find({ idNumber:idNumber });
@@ -47,6 +52,9 @@ async function getUser(req, res) {
 
 // Routes
 app.post('/', getUser);
+app.get('/status', (req, res) => {
+  res.status(200).send('Server is running!');
+});
 app.use((req, res) => {
   res.status(404).json({ message: 'Not found.' });
 });

@@ -27,6 +27,11 @@ app.use(morgan('dev'));
 
 // Functions
 async function createUser(req, res) {
+  if(mongoose.connection.readyState == 0){
+    res.status(504).json({ error: 'Database is not connected' });
+    console.log('Database is not connected');
+    return;
+  }
   const {
     idType,
     idNumber,
@@ -59,13 +64,17 @@ async function createUser(req, res) {
     res.status(201).json(newUser);
     console.log('User created');
   } catch (e) {
-    res.status(500).json({ error: e.message });
+    res.status(400).json({ error: e.message });
     console.log(e.message);
     console.log('Error while running createUser(req, res)');
   }
 }
 
+
 app.post('/', createUser);
+app.get('/status', (req, res) => {
+  res.status(200).send('Server is running!');
+});
 app.use((req, res) => {
   res.status(404).json({ message: 'Not found.' });
   console.log(req);

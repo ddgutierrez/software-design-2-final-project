@@ -28,7 +28,7 @@ const userSchema = new Schema({
   },
   middleName: {
     type: String,
-    required: [true, 'Segundo Nombre es requerido'],
+    required: false,
     maxLength: [30, 'No se permiten nombres con más de 30 caracteres'],
     validate:{ 
       validator: (str) => isNaN(str),

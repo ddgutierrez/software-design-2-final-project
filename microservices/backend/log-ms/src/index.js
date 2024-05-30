@@ -21,6 +21,11 @@ app.use(express.json());
 
 // Functions
 async function getLogs(req, res) {
+  if(mongoose.connection.readyState == 0){
+    res.status(504).json({ error: 'Database is not connected' });
+    console.log('Database is not connected');
+    return;
+  }
   const {idNumber, date, action} = req.query;
   const query = { };
   if (idNumber) query.idNumber = idNumber;
@@ -37,6 +42,9 @@ async function getLogs(req, res) {
 
 // Routes
 app.get('/', getLogs);
+app.get('/status', (req, res) => {
+  res.status(200).send('Server is running!');
+});
 app.use((req, res) => {
   res.status(404).json({ message: 'Not found.' });
 });

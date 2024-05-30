@@ -52,36 +52,36 @@ document.addEventListener("DOMContentLoaded", function () {
   const generoInput = document.getElementById("genero1");
   const fechaInput = document.getElementById("fechaNacimiento1");
 
-  function fetchUserDataEditar(idNumber) {
-    fetch("http://localhost:8000/read/", {
+  async function fetchUserDataEditar(idNumber) {
+    try {
+      const response = await fetch("http://localhost:8000/read/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ idNumber: idNumber }),
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else if (response.status === 404) {
-          throw new Error("Número de documento no existe");
-        } else {
-          throw new Error("Failed to fetch persona data");
-        }
-      })
-      .then((data) => {
-        if (data.length > 0) {
-          populateFormData(data[0]); // Llenar los datos del formulario
-          originalData = data[0]; // Guardar los datos originales
-        } else {
-          alert(
-            "No se encontraron datos para el número de identificación proporcionado"
-          );
-        }
-      })
-      .catch((error) => {
-        alert("Error: " + error.message);
+      body: JSON.stringify({ idNumber: idNumber })
       });
+      if(response.ok) {
+        const data = await response.json();
+        populateFormData(data[0]); // Llenar los datos del formulario
+        originalData = data[0];
+        
+      } else if (response.status === 404) {
+        throw new Error("El número de documento no existe");
+      } else if (response.status === 503) {
+        throw new Error("read-ms no está disponible");
+      } else if (response.status === 504) {
+        throw new Error("la base de datos no está disponible");
+      } else {
+        throw new Error("Unknown Error");
+      }
+    } catch (error) {
+      if(error.message === "Failed to fetch") {
+        alert("Error: api-gateway no está disponible");
+      }else{
+        alert("Error: " + error.message);
+      }
+    }
   }
 
   // Asegúrate de que la función esté disponible globalmente
@@ -165,7 +165,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  function updateUserData(idNumber, base64String = null) {
+  async function updateUserData(idNumber, base64String = null) {
     if(Object.keys(originalData).length === 0){
       originalData.birthDate = "2000-01-01T00:00:00.000Z";
     }
@@ -176,26 +176,32 @@ document.addEventListener("DOMContentLoaded", function () {
       formData.photo = base64String;
     }
 
-    fetch(`http://localhost:8000/update/`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error("Failed to update persona data");
-        }
-      })
-      .then((data) => {
-        alert("Persona actualizada con éxito!");
-      })
-      .catch((error) => {
-        alert("Error: " + error.message);
+    try {
+      const response = await fetch("http://localhost:8000/update/", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
       });
+      if(response.ok) {
+        alert("Persona actualizada con éxito!");
+      } else if (response.status === 404) {
+        throw new Error("El número de documento no existe");
+      } else if (response.status === 503) {
+        throw new Error("update-ms no está disponible");
+      } else if (response.status === 504) {
+        throw new Error("la base de datos no está disponible");
+      } else {
+        throw new Error("Unknown Error");
+      }
+    } catch (error) {
+      if(error.message === "Failed to fetch") {
+        alert("Error: api-gateway no está disponible");
+      }else{
+        alert("Error: " + error.message);
+      }
+    }
   }
 
   // Expresiones regulares para validaciones

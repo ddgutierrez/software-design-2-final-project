@@ -32,6 +32,11 @@ app.use((req, res, next) => {
 
 // Functions
 async function updateUser(req, res) {
+  if(mongoose.connection.readyState == 0){
+    res.status(504).json({ error: 'Database is not connected' });
+    console.log('Database is not connected');
+    return;
+  }
   const {  idType, idNumber, firstName, middleName, lastName, birthDate, gender, email, phone, photo, } =
     req.body;
   console.log(idNumber);
@@ -64,6 +69,9 @@ async function updateUser(req, res) {
 
 // Routes
 app.patch('/', updateUser);
+app.get('/status', (req, res) => {
+  res.status(200).send('Server is running!');
+});
 app.use((req, res) => {
   res.status(404).json({ message: 'Not found.' });
 });

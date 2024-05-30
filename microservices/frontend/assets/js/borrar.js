@@ -30,29 +30,33 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  function deleteUser(idNumber) {
-    fetch("http://localhost:8000/delete/", {
-      method: "DELETE",
+  async function deleteUser(idNumber) {
+    try {
+      const response = await fetch("http://localhost:8000/delete/", {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ idNumber: idNumber }),
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error("Failed to delete persona");
-        }
-      })
-      .then((data) => {
-        console.log("Updated Data:", data);
+      body: JSON.stringify({ idNumber: idNumber })
+      });
+      if(response.ok) {
         alert("Persona borrada con éxito!");
         location.reload();
-      })
-      .catch((error) => {
-        console.error("Error:", error);
+      } else if (response.status === 404) {
+        throw new Error("El número de documento no existe");
+      } else if (response.status === 503) {
+        throw new Error("delete-ms no está disponible");
+      } else if (response.status === 504) {
+        throw new Error("la base de datos no está disponible");
+      } else {
+        throw new Error("Unknown Error");
+      }
+    } catch (error) {
+      if(error.message === "Failed to fetch") {
+        alert("Error: api-gateway no está disponible");
+      }else{
         alert("Error: " + error.message);
-      });
+      }
+    }
   }
 });

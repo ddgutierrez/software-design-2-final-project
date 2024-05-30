@@ -14,8 +14,6 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
       toBase64(file)
         .then((base64String) => {
-          console.log("Foto en Base64:", base64String); // Verificar la conversión a Base64
-
           sendData(base64String);
         })
         .catch((error) => {
@@ -168,35 +166,34 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("Datos del formulario:", formData);
     submitForm(formData);
   }
-
-  function submitForm(formData) {
-    fetch("http://localhost:8000/create", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else if (response.status === 500) {
-          throw new Error("Número de documento ya existe");
-        } else {
-          throw new Error("Error al crear la persona");
-        }
-      })
-      .then((data) => {
-        console.log("Response:", data);
-        alert("Persona creada con éxito!");
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        if (error.message === "Número de documento ya existe") {
-          alert("Error: El número de documento ya existe.");
-        } else {
-          alert("Error: " + error.message);
-        }
+  
+  async function submitForm(formData){
+    try {
+      const response = await fetch("http://localhost:8000/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
       });
+      if(response.ok) {
+        console.log("Response:", response.json());
+        alert("Persona creada con éxito!");
+      } else if (response.status === 400) {
+        throw new Error("El número de documento ya existe");
+      } else if (response.status === 503) {
+        throw new Error("create-ms no está disponible");
+      } else if (response.status === 504) {
+        throw new Error("la base de datos no está disponible");
+      } else {
+        throw new Error("Unknown Error");
+      }
+    } catch (error) {
+      if(error.message === "Failed to fetch") {
+        alert("Error: api-gateway no está disponible");
+      }else{
+        alert("Error: " + error.message);
+      }
+    }
   }
 });

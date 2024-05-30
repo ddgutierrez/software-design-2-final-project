@@ -28,7 +28,7 @@ const userSchema = new Schema({
   },
   middleName: {
     type: String,
-    required: [true, 'Segundo Nombre es requerido'],
+    required: false,
     maxLength: [30, 'No se permiten nombres con más de 30 caracteres'],
     validate:{ 
       validator: (str) => isNaN(str),
@@ -72,7 +72,6 @@ const userSchema = new Schema({
     required: [false, 'Foto es requerida'],
     max: [2097152, 'El tamaño del archivo no puede superar los 2 MB'], // 2MB = 2097152B
   },
-  
 });
 
 module.exports = mongoose.model('Users', userSchema);
