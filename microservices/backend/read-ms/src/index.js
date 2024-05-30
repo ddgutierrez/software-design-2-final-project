@@ -40,7 +40,7 @@ async function getUser(req, res) {
     } else {
       console.log('User found');
       const action = 'leer usuario';
-      const newLog = new Log({ action:action, idNumber:idNumber });
+      const newLog = new Log({ action, idNumber });
       await newLog.save();
       res.status(200).json(user);
     }

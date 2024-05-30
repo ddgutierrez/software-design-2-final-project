@@ -54,6 +54,7 @@ async function updateUser(req, res) {
     } else {
       console.log('User updated succesfully');
       const action = 'actualizar usuario';
+      
       const newLog = new Log({ action, idNumber });
       await newLog.save();
       console.log(user);

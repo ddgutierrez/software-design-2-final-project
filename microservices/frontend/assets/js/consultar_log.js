@@ -5,7 +5,7 @@ async function fetchLogData() {
   const logResults = document.getElementById('logResults');
   logResults.innerHTML = ''; // Clear previous results
   console.log(date);
-
+  
   // Validate the idNumberInput against the pattern \d{1,10}
   const idNumberPattern = /^\d{0,10}$/;
   if (!idNumberPattern.test(idNumberInput.value)) {

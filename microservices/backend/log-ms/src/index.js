@@ -29,8 +29,24 @@ async function getLogs(req, res) {
   const {idNumber, date, action} = req.query;
   const query = { };
   if (idNumber) query.idNumber = idNumber;
-  if (date) query.createdAt = { $gte: date + "T00:00:00.000Z", $lt: date + "T23:59:59.999Z" };
+  if (date){
+    const startDate = new Date(date);
+    const endDate = new Date(date);
+    endDate.setHours(23, 59, 59, 999);
+    console.log(startDate.toJSON());
+    console.log(endDate.toJSON());  
+    const startDateUTC = new Date(startDate.getTime() +  ( 300 * 60000 ));
+    const endDateUTC = new Date(endDate.getTime() +  ( 300 * 60000 ));
+    console.log(startDateUTC.toJSON());
+    console.log(endDateUTC.toJSON());  
+    query.createdAt = { $gte: startDateUTC.toJSON(), $lt: endDateUTC.toJSON() };
+  }
   if (action) query.action = action;
+
+  startDate = new Date(date);
+  endDate = new Date(date + "T23:59:59.999Z");
+
+
   try {
     const log = await Log.find(query).sort({ createdAt: -1 });
     res.status(200).json(log);

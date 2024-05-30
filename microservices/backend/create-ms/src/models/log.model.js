@@ -17,6 +17,6 @@ const logSchema = new mongoose.Schema({
         required: true,
         default: Date.now,
     },
-});
+ });
 
 module.exports = mongoose.model('Log', logSchema);
