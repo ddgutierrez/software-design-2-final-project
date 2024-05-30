@@ -89,14 +89,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Función para llenar los campos del formulario
   function populateFormData(userData) {
-    console.log('Testing'+userData.middleName)
     document.getElementById("tipoDocumento1").value = userData.idType;
     document.getElementById("primerNombre1").value = userData.firstName;
-    if(typeof userData.middleName === 'undefined' || userData.middleName === ''){
-      document.getElementById("segundoNombre1").value = '';
-    }else{
-      document.getElementById("segundoNombre1").value = data.middleName;
-    }
+    document.getElementById("segundoNombre1").value = userData.middleName;
     document.getElementById("apellidos1").value = userData.lastName;
     document.getElementById("fechaNacimiento1").value =
       userData.birthDate.split("T")[0];
@@ -180,7 +175,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (base64String) {
       formData.photo = base64String;
     }
-
+    console.log(formData);
     try {
       const response = await fetch("http://localhost:8000/update/", {
         method: "PATCH",
