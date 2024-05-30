@@ -118,18 +118,18 @@ body {
   display: flex;
   flex-direction: column;
   width: 45%;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
 }
 
 .hero .hero-left h1 {
   font-size: 2.5em;
-  margin-bottom: 0.5em;
+  margin-bottom: 0em;
 }
 
 .hero .hero-left {
   font-size: 1.2em;
-  margin-bottom: 1.5em;
+  margin-bottom: 0em;
 }
 
 .hero .hero-left button {
@@ -152,7 +152,7 @@ body {
 .features {
   display: flex;
   justify-content: space-around;
-  align-items: center;
+  align-items: flex-start;
   padding-bottom: 2em;
   background: rgb(243, 251, 255);
   width: calc(100% - 80px);
@@ -166,6 +166,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 4% 3% 3% 3%;
 }
 
 .feature-item h3 {
@@ -377,6 +378,10 @@ input[type="number"]::-webkit-outer-spin-button {
   margin: 0;
 }
 
+#buscar_log{
+  margin-top: 2%;
+}
+
 #logResults {
   margin-top: 20px;
   width: 60%;
@@ -390,10 +395,11 @@ table {
   border-collapse: collapse;
 }
 
+
 table,
 th,
 td {
-  border: 1px solid #ddd;
+  border: 2px solid #6b6b6b;
 }
 
 th,
@@ -403,35 +409,7 @@ td {
 }
 
 th {
-  background-color: #f2f2f2;
+  background-color: #05252d;
+  color: white;
 }
 
-input[type="date"]::-webkit-datetime-edit, input[type="date"]::-webkit-inner-spin-button, input[type="date"]::-webkit-clear-button {
-  color: #fff;
-  position: relative;
-}
-
-input[type="date"]::-webkit-datetime-edit-year-field{
-  position: absolute !important;
-  border-left:1px solid #8c8c8c;
-  padding: 2px;
-  color:#000;
-  left: 56px;
-}
-
-input[type="date"]::-webkit-datetime-edit-month-field{
-  position: absolute !important;
-  border-left:1px solid #8c8c8c;
-  padding: 2px;
-  color:#000;
-  left: 26px;
-}
-
-
-input[type="date"]::-webkit-datetime-edit-day-field{
-  position: absolute !important;
-  color:#000;
-  padding: 2px;
-  left: 4px;
-  
-}
