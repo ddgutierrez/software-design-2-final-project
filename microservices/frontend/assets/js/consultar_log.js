@@ -55,7 +55,7 @@ async function fetchLogData() {
                 <tr>
                   <td>${log.idNumber}</td>
                   <td>${log.action}</td>
-                  <td>${new Date(log.createdAt).toLocaleString()}</td>
+                  <td>${formatDate(log.createdAt)}</td>
                 </tr>
               `
                 )
@@ -80,4 +80,12 @@ async function fetchLogData() {
       alert("Error: " + error.message);
     }
   }
+}
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  const day = date.getDate().toString().padStart(2, '0');
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const year = date.getFullYear();
+  const time = date.toLocaleTimeString(); // Esto mantiene la hora local
+  return `${day}-${month}-${year} ${time}`;
 }
