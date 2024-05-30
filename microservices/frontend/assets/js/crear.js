@@ -162,8 +162,11 @@ document.addEventListener("DOMContentLoaded", function () {
       photo: base64String,
     };
     const middleName = document.getElementById("segundoNombre").value;
+    console.log(middleName);
     if (middleName) {
       formData.middleName = middleName;
+    }else{
+      formData.middleName = "";
     }
     console.log("Datos del formulario:", formData);
     submitForm(formData);
