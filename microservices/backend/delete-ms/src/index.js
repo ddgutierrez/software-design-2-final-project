@@ -20,12 +20,31 @@ app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
 
+async function connectDB() {
+  mongoose
+  .connect(process.env.MONGODB_URI)
+  .then(() => {
+    console.log('Connected to database.');
+    return 1;
+  })
+  .catch((err) => {
+    console.log('There was an error when connecting to database!');
+    console.log(err);
+    return 0;
+  });
+  return 0;
+}
+
 // Functions
 async function deleteUser(req, res) {
   if(mongoose.connection.readyState == 0){
-    res.status(504).json({ error: 'Database is not connected' });
-    console.log('Database is not connected');
-    return;
+    const result = await connectDB();
+    if(result == 0){
+      res.status(504).json({ error: 'Database is not connected' });
+      console.log('Database is not connected');
+      return;
+    }
+    console.log('Database is reconnected');
   }
   const { idNumber } = req.body;
   try {
@@ -65,13 +84,5 @@ try {
 }
 
 // Connecting to database
-mongoose
-  .connect(process.env.MONGODB_URI)
-  .then(() => {
-    console.log('Connected to database.');
-  })
-  .catch((err) => {
-    console.log('There was an error when connecting to database!');
-    console.log(err);
-  });
+connectDB();
 
